@@ -11,12 +11,12 @@
     <link rel="apple-touch-icon" href="https://img.icons8.com/color/180/torii.png">
     
     <style>
-        /* 亮色系全域變數 */
+        /* 亮色系全域變數 - 維持原本的美術設定 */
         :root {
             --primary: #FF5E57;
-            --text-main: #1C1C1E;       /* 深灰黑文字 */
-            --text-sub: #636366;        /* 次要文字 */
-            --bg-color: #F2F2F7;        /* 淺灰背景 */
+            --text-main: #1C1C1E;
+            --text-sub: #636366;
+            --bg-color: #F2F2F7;
             
             /* 毛玻璃卡片 (亮色) */
             --card-bg: rgba(255, 255, 255, 0.85);
@@ -24,9 +24,9 @@
             --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 
             /* 主題強調色 */
-            --accent-osaka: #FF3B30;  /* 蘋果紅 */
-            --accent-kyoto: #AF52DE;  /* 紫色 */
-            --accent-kobe: #007AFF;   /* 藍色 */
+            --accent-osaka: #FF3B30;
+            --accent-kyoto: #AF52DE;
+            --accent-kobe: #007AFF;
         }
 
         body {
@@ -40,7 +40,7 @@
             min-height: 100vh;
         }
 
-        /* 背景圖片層 */
+        /* 背景圖片層 - 優化濾鏡以配合高品質照片 */
         #bg-layer {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -49,12 +49,12 @@
             background-repeat: no-repeat;
             z-index: -1;
             transition: opacity 0.5s ease-in-out;
-            /* 輕微模糊，讓前景文字更清楚 */
-            filter: blur(2px); 
-            transform: scale(1.02);
+            /* 輕微模糊，讓前景文字更清楚，同時保留照片細節 */
+            filter: blur(3px); 
+            transform: scale(1.03); /* 稍微放大避免模糊邊緣露白 */
         }
         
-        /* 頂部導航 */
+        /* 頂部導航 - 毛玻璃效果 */
         .header {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
@@ -113,7 +113,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 卡片樣式 */
+        /* 卡片樣式 - 毛玻璃與質感 */
         .card {
             background: var(--card-bg);
             border-radius: 22px;
@@ -249,7 +249,7 @@
 </head>
 <body data-theme="osaka">
 
-    <div id="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1552560229-8a34a814a57c?q=80&w=2074&auto=format&fit=crop');"></div>
+    <div id="bg-layer" style="background-image: url('image_4.png');"></div>
 
     <div class="header">
         <div class="title-bar">
@@ -275,12 +275,12 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:30 - 11:30</span>
-                    <span class="activity">飛機抵達 KIX，入境、領行李。於機場購買 ICOCA 卡，建議在機場超商簡單吃點輕食。</span>
+                    [cite_start]<span class="activity">飛機抵達 KIX [cite: 3][cite_start]，入境、領行李、過海關 [cite: 4][cite_start]。於機場購買 ICOCA 卡 [cite: 6][cite_start]，可簡單吃輕食 [cite: 7]。</span>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">11:30 - 12:40</span>
-                    <span class="activity">前往森之宮飯店 (JR 關空快速 → 大阪環狀線)。</span>
+                    [cite_start]<span class="activity">前往森之宮飯店 (JR 關空快速 → 大阪環狀線) [cite: 8, 9]。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&destination=Morinomiya+Station&travelmode=transit" target="_blank" class="live-btn train">
                             🚃 即時車況導航
@@ -300,8 +300,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">13:30 - 16:00</span>
-                    <span class="activity">大阪城公園散步。若想進天守閣請預留 1.5 小時，不想排隊則在公園拍照即可。</span>
-                    <div class="note">⚠️ 冬天公園空曠風大，請務必戴帽子與圍巾。</div>
+                    [cite_start]<span class="activity">大阪城公園散步 [cite: 11][cite_start]。若想進天守閣請預留 1.5 小時，不想排隊則在公園拍照即可 [cite: 13]。</span>
+                    [cite_start]<div class="note">⚠️ 冬天公園風大很冷，記得帶帽子/圍巾 [cite: 32]。</div>
                 </div>
             </div>
         </div>
@@ -316,13 +316,13 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">16:30 - 16:45</span>
-                    <span class="activity">搭乘地鐵前往心齋橋 (長堀鶴見綠地線)。</span>
+                    [cite_start]<span class="activity">搭乘地鐵前往心齋橋 (長堀鶴見綠地線) [cite: 15, 16]。</span>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">16:45 - 21:30</span>
-                    <span class="activity">心齋橋藥妝店採買、美國村逛古著。晚餐於道頓堀享用 (拉麵、串炸、章魚燒)。</span>
-                    <div class="note">⚠️ 人潮擁擠，請將背包背在胸前防竊。</div>
+                    [cite_start]<span class="activity">心齋橋商店街(藥妝) [cite: 18][cite_start]、美國村(古著)逛街 [cite: 19][cite_start]。晚餐於道頓堀享用 (拉麵、串炸、章魚燒) [cite: 20, 22]。</span>
+                    [cite_start]<div class="note">⚠️ 人潮擁擠，請將背包背在胸前防竊 [cite: 33]。</div>
                 </div>
             </div>
         </div>
@@ -339,7 +339,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:20 - 09:40</span>
-                    <span class="activity">前往梅田 (搭乘 JR 大阪環狀線至大阪站)。</span>
+                    [cite_start]<span class="activity">前往梅田 (搭乘 JR 大阪環狀線至大阪站) [cite: 41, 42]。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&destination=Osaka+Station&travelmode=transit" target="_blank" class="live-btn train">
                             🚃 查看電車路線
@@ -349,7 +349,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:40 - 12:00</span>
-                    <span class="activity">逛 Grand Front Osaka 或 Yodobashi Camera (3C/家電/扭蛋)。</span>
+                    [cite_start]<span class="activity">逛 Grand Front Osaka 或 Yodobashi Camera (3C/家電/扭蛋) [cite: 43, 44]。</span>
                 </div>
             </div>
         </div>
@@ -364,7 +364,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">13:30 - 17:30</span>
-                    <span class="activity">午餐後繼續探索梅田。推薦 LUCUA 百貨 (年輕潮流) 或 Whity 地下街。也可前往中崎町咖啡街散步。</span>
+                    [cite_start]<span class="activity">午餐後繼續探索梅田 [cite: 46][cite_start]。推薦 LUCUA 百貨 (年輕潮流) 或 Whity 地下街 [cite: 45]。也可前往中崎町咖啡街散步。</span>
                 </div>
             </div>
         </div>
@@ -379,13 +379,13 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">18:00 - 20:00</span>
-                    <span class="activity">欣賞 360 度夜景，晚餐可於地下層「瀧見小路」享用。</span>
+                    [cite_start]<span class="activity">欣賞 360 度夜景，晚餐可於地下層「瀧見小路」享用 [cite: 60, 61]。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&destination=Umeda+Sky+Building&travelmode=walking" target="_blank" class="live-btn walk">
                             🚶 步行導航
                         </a>
                     </div>
-                    <div class="note">⚠️ 戶外展望層風大極冷，必備保暖衣物。</div>
+                    [cite_start]<div class="note">⚠️ 戶外展望層風大極冷，必備保暖衣物 [cite: 75]。</div>
                 </div>
             </div>
         </div>
@@ -402,7 +402,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">08:00 - 09:00</span>
-                    <span class="activity">前往伏見稻荷 (JR 環狀線至京橋 → 轉京阪本線)。</span>
+                    [cite_start]<span class="activity">前往伏見稻荷 (JR 環狀線至京橋 → 轉京阪本線) [cite: 81, 83]。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&destination=Fushimi+Inari+Taisha&travelmode=transit" target="_blank" class="live-btn train">
                             🚃 查看轉乘資訊
@@ -412,8 +412,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:00 - 11:30</span>
-                    <span class="activity">參拜千本鳥居。建議走到半山腰即可折返。</span>
-                    <div class="note">⚠️ 爬坡行程，請穿好走的鞋。建議 9 點前抵達避開人潮。</div>
+                    [cite_start]<span class="activity">參拜千本鳥居 [cite: 85, 87]。建議走到半山腰即可折返。</span>
+                    [cite_start]<div class="note">⚠️ 爬坡行程，請穿好走的鞋 [cite: 111][cite_start]。建議 9 點前抵達避開人潮 [cite: 110]。</div>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">13:00 - 15:30</span>
-                    <span class="activity">參觀清水舞台、音羽瀑布。回程沿著二年坂、三年坂逛老街、吃抹茶甜點。</span>
-                    <div class="note">⚠️ 石板路面容易滑，行走請小心。</div>
+                    [cite_start]<span class="activity">參觀清水舞台、音羽瀑布 [cite: 93, 95][cite_start]。回程沿著二年坂、三年坂逛老街、吃抹茶甜點 [cite: 96]。</span>
+                    [cite_start]<div class="note">⚠️ 石板路面容易滑，行走請小心 [cite: 112]。</div>
                 </div>
             </div>
         </div>
@@ -444,12 +444,12 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">15:30 - 19:00</span>
-                    <span class="activity">參拜八坂神社，漫步花見小路。晚餐於河原町周邊享用。</span>
+                    [cite_start]<span class="activity">參拜八坂神社 [cite: 98][cite_start]，漫步花見小路 [cite: 99][cite_start]。晚餐於河原町周邊享用 [cite: 100]。</span>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">19:30 - 20:30</span>
-                    <span class="activity">返回大阪 (京阪本線特急至京橋 → 轉 JR 環狀線)。</span>
+                    [cite_start]<span class="activity">返回大阪 (京阪本線特急至京橋 → 轉 JR 環狀線) [cite: 101, 102, 103]。</span>
                 </div>
             </div>
         </div>
@@ -466,7 +466,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:00 - 09:30</span>
-                    <span class="activity">前往神戶三宮 (JR 神戶線新快速)。</span>
+                    [cite_start]<span class="activity">前往神戶三宮 (JR 神戶線新快速) [cite: 119, 120]。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&destination=Sannomiya+Station&travelmode=transit" target="_blank" class="live-btn train">
                             🚃 即時車況
@@ -476,8 +476,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:30 - 12:00</span>
-                    <span class="activity">北野異人館區散步，挑選 1-2 棟洋館參觀 (如風見雞之館)。</span>
-                    <div class="note">🚶 此區坡道多，步調請放慢。</div>
+                    [cite_start]<span class="activity">北野異人館區散步 [cite: 121][cite_start]，挑選 1-2 棟洋館參觀 [cite: 123]。</span>
+                    [cite_start]<div class="note">🚶 此區坡道多，步調請放慢 [cite: 150]。</div>
                 </div>
             </div>
         </div>
@@ -492,7 +492,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">15:00 - 16:30</span>
-                    <span class="activity">南京町吃老祥記包子、小籠包等點心。</span>
+                    [cite_start]<span class="activity">南京町吃老祥記包子、小籠包等點心 [cite: 130, 132]。</span>
                 </div>
             </div>
         </div>
@@ -507,8 +507,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">17:00 - 20:00</span>
-                    <span class="activity">Meriken Park 拍「BE KOBE」地標。晚餐於 Harborland MOSAIC 餐廳享用。</span>
-                    <div class="note">❄️ 港邊海風強勁，請務必戴圍巾帽子保暖。</div>
+                    [cite_start]<span class="activity">Meriken Park 拍「BE KOBE」地標 [cite: 135, 136][cite_start]。晚餐於 Harborland MOSAIC 餐廳享用 [cite: 138, 140]。</span>
+                    [cite_start]<div class="note">❄️ 港邊海風強勁，請務必戴圍巾帽子保暖 [cite: 152]。</div>
                 </div>
             </div>
         </div>
@@ -525,34 +525,37 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:00 - 11:00</span>
-                    <span class="activity">最後補貨 (心齋橋藥妝 / 梅田電器)。</span>
+                    [cite_start]<span class="activity">最後補貨 (心齋橋藥妝 / 梅田電器) [cite: 160, 161, 162]。</span>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">11:30 - 12:30</span>
-                    <span class="activity">前往關西機場 (預抓飛機起飛前 2.5-3 小時抵達)。</span>
+                    [cite_start]<span class="activity">前往關西機場 (預抓飛機起飛前 2.5-3 小時抵達) [cite: 164, 168]。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&destination=Kansai+International+Airport&travelmode=transit" target="_blank" class="live-btn train">
-                            🚃 路線查詢 (HARUKA/關空快速)
+                            [cite_start]🚃 路線查詢 (HARUKA/關空快速) [cite: 165, 166]
                         </a>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">12:30 - 15:00</span>
-                    <span class="activity">機場 Check-in、托運、逛免稅店、登機。</span>
-                    <div class="note">⚠️ 液體、膠狀物記得裝在透明袋或放入托運行李。</div>
+                    [cite_start]<span class="activity">機場 Check-in、托運、逛免稅店、登機 [cite: 167]。</span>
+                    [cite_start]<div class="note">⚠️ 液體、膠狀物記得裝在透明袋或放入托運行李 [cite: 172]。</div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 背景圖庫 (亮色系/白天風景)
+        // 背景圖庫 (使用使用者上傳的圖片檔名)
+        // 請確保這些檔案與 index.html 在同一目錄下
         const bgs = {
-            osaka: "https://images.unsplash.com/photo-1552560229-8a34a814a57c?q=80&w=2074&auto=format&fit=crop", // 大阪城白天
-            kyoto: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2070&auto=format&fit=crop", // 清水寺白天
-            kobe: "https://images.unsplash.com/photo-1572883454114-1cf0031a026e?q=80&w=1974&auto=format&fit=crop"   // 神戶塔白天
+            d1: "image_4.png", // 大阪城 (Day 1)
+            d2: "image_1.png", // 梅田夜景 (Day 2)
+            d3: "image_3.png", // 京都八坂之塔 (Day 3)
+            d4: "image_0.png", // 神戶港 (Day 4)
+            d5: "image_2.png"  // 道頓堀 (Day 5)
         };
 
         function switchTab(dayId, theme) {
@@ -567,12 +570,13 @@
                 document.querySelectorAll('.tab')[index].classList.add('active');
             }
             
-            // 設定主題屬性 (CSS 變數用)
+            // 設定主題屬性 (CSS 變數用，維持強調色)
             document.body.setAttribute('data-theme', theme);
 
             // 切換背景圖 (淡入淡出)
             const bgLayer = document.getElementById('bg-layer');
-            const newUrl = `url('${bgs[theme]}')`;
+            // 使用 dayId 來選擇對應的圖片
+            const newUrl = `url('${bgs[dayId]}')`;
             
             if (bgLayer.style.backgroundImage !== newUrl) {
                 bgLayer.style.opacity = 0;
@@ -597,14 +601,14 @@
                     wrapper.innerHTML = `
                         <iframe 
                             class="map-frame" 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d135.5!3d34.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1szh-TW!2stw!4v1234567890!5m2!1szh-TW!2stw&q=${encodedLoc}&output=embed" 
-                            allowfullscreen 
+                            src="https://maps.google.com/maps?q=${encodedLoc}&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                            frameborder="0" 
+                            scrolling="no" 
+                            marginheight="0" 
+                            marginwidth="0"
                             loading="lazy">
                         </iframe>
                     `;
-                    // 這裡使用通用的 embed URL 結構，實際顯示時 Google 會自動處理搜尋
-                    // 為了確保最佳相容性，使用 output=embed 參數
-                    wrapper.innerHTML = `<iframe class="map-frame" src="https://maps.google.com/maps?q=${encodedLoc}&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>`;
                     
                     setTimeout(() => wrapper.classList.add('loaded'), 300);
                 }
