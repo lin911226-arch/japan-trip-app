@@ -6,41 +6,41 @@
     <title>關西 5 天 4 夜</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default"> <meta name="apple-mobile-web-app-title" content="關西之旅">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="關西之旅">
     <link rel="apple-touch-icon" href="https://img.icons8.com/color/180/torii.png">
     
     <style>
-        /* 全域變數 (亮色系) */
+        /* 亮色系全域變數 */
         :root {
             --primary: #FF5E57;
-            --text: #333333;      /* 深色文字 */
-            --text-sec: #666666;  /* 次要文字 */
-            --bg-color: #f0f2f5;  /* 淺灰背景 */
-            --card-bg: rgba(255, 255, 255, 0.85); /* 白色毛玻璃 */
-            --card-border: rgba(255, 255, 255, 0.4);
-            --header-bg: rgba(255, 255, 255, 0.7);
-            --tab-bg: rgba(0, 0, 0, 0.05);
-            --tab-border: rgba(0, 0, 0, 0.08);
-            --tab-text: #555555;
+            --text-main: #1C1C1E;       /* 深灰黑文字 */
+            --text-sub: #636366;        /* 次要文字 */
+            --bg-color: #F2F2F7;        /* 淺灰背景 */
             
+            /* 毛玻璃卡片 (亮色) */
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(255, 255, 255, 0.6);
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
             /* 主題強調色 */
-            --accent-osaka: #FF5252;
-            --accent-kyoto: #7E57C2; /* 調整為較柔和的紫 */
-            --accent-kobe: #039BE5;  /* 調整為較深邃的藍 */
+            --accent-osaka: #FF3B30;  /* 蘋果紅 */
+            --accent-kyoto: #AF52DE;  /* 紫色 */
+            --accent-kobe: #007AFF;   /* 藍色 */
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
             background-color: var(--bg-color);
-            color: var(--text);
+            color: var(--text-main);
             margin: 0;
             padding: 0;
-            padding-bottom: 60px;
+            padding-bottom: 80px;
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
         }
 
-        /* 背景圖片層 (調整濾鏡使背景更亮) */
+        /* 背景圖片層 */
         #bg-layer {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -48,16 +48,15 @@
             background-position: center;
             background-repeat: no-repeat;
             z-index: -1;
-            transition: background-image 0.6s ease-in-out, opacity 0.6s ease-in-out;
-            opacity: 1;
-            /* 移除壓暗濾鏡，改為輕微模糊讓文字更清楚，保持明亮感 */
-            filter: blur(3px); 
-            transform: scale(1.02); /* 避免模糊邊緣 */
+            transition: opacity 0.5s ease-in-out;
+            /* 輕微模糊，讓前景文字更清楚 */
+            filter: blur(2px); 
+            transform: scale(1.02);
         }
         
-        /* 頂部導航 (亮色毛玻璃) */
+        /* 頂部導航 */
         .header {
-            background: var(--header-bg);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             position: sticky;
@@ -71,15 +70,14 @@
             padding: 15px;
             text-align: center;
             font-weight: 800;
-            font-size: 18px;
-            color: var(--text);
-            /* 移除文字陰影，使介面更乾淨 */
+            font-size: 17px;
+            color: var(--text-main);
         }
 
         .tabs {
             display: flex;
             overflow-x: auto;
-            padding: 0 15px 15px 15px;
+            padding: 0 15px 12px 15px;
             scrollbar-width: none;
             gap: 10px;
         }
@@ -89,19 +87,18 @@
             flex: 0 0 auto;
             padding: 8px 16px;
             border-radius: 20px;
-            background: var(--tab-bg);
+            background: rgba(0, 0, 0, 0.05);
             font-size: 13px;
             font-weight: 600;
-            color: var(--tab-text);
-            border: 1px solid var(--tab-border);
+            color: var(--text-sub);
+            border: none;
             transition: all 0.3s;
-            backdrop-filter: blur(5px);
         }
 
-        /* 動態主題色按鈕 (文字改為白色以對比強調色背景) */
-        body[data-theme="osaka"] .tab.active { background: var(--accent-osaka); color: white; border-color: transparent; box-shadow: 0 4px 10px rgba(255, 82, 82, 0.3); }
-        body[data-theme="kyoto"] .tab.active { background: var(--accent-kyoto); color: white; border-color: transparent; box-shadow: 0 4px 10px rgba(126, 87, 194, 0.3); }
-        body[data-theme="kobe"] .tab.active { background: var(--accent-kobe); color: white; border-color: transparent; box-shadow: 0 4px 10px rgba(3, 155, 229, 0.3); }
+        /* 動態主題色按鈕 */
+        body[data-theme="osaka"] .tab.active { background: var(--accent-osaka); color: white; box-shadow: 0 4px 10px rgba(255, 59, 48, 0.3); }
+        body[data-theme="kyoto"] .tab.active { background: var(--accent-kyoto); color: white; box-shadow: 0 4px 10px rgba(175, 82, 222, 0.3); }
+        body[data-theme="kobe"] .tab.active { background: var(--accent-kobe); color: white; box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3); }
 
         /* 內容區 */
         .content {
@@ -116,17 +113,16 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 卡片樣式 (亮色毛玻璃) */
+        /* 卡片樣式 */
         .card {
             background: var(--card-bg);
-            border-radius: 20px;
+            border-radius: 22px;
             margin-bottom: 20px;
             border: 1px solid var(--card-border);
             overflow: hidden;
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            /* 改為柔和的深色陰影 */
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--shadow);
             transition: transform 0.2s;
         }
 
@@ -136,15 +132,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0,0,0,0.02);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            background: rgba(255,255,255,0.4);
+            border-bottom: 1px solid rgba(0,0,0,0.03);
         }
 
         .card-header h3 {
             margin: 0;
             font-size: 17px;
             font-weight: 700;
-            color: var(--text);
+            color: var(--text-main);
             display: flex;
             align-items: center;
             gap: 12px;
@@ -155,41 +151,36 @@
             border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
             font-size: 18px;
-            background: rgba(0,0,0,0.05);
-            color: #333;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        .toggle-icon { color: var(--text-sec); font-size: 12px; transition: 0.3s; }
-        .card.expanded .toggle-icon { transform: rotate(180deg); color: var(--text); }
+        .toggle-icon { color: #C7C7CC; font-size: 12px; transition: 0.3s; }
+        .card.expanded .toggle-icon { transform: rotate(180deg); color: var(--text-main); }
 
         /* 地圖區 */
         .map-wrapper {
             height: 0; overflow: hidden;
             transition: height 0.3s ease;
-            background: #e0e0e0; /* 淺灰色地圖佔位符 */
+            background: #E5E5EA;
             position: relative;
         }
-        /* 加入載入中的提示 */
         .map-wrapper::before {
             content: '地圖載入中...';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            color: #999;
-            font-size: 14px;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            color: #8E8E93; font-size: 13px;
         }
-        .map-frame { width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity 0.5s; position: relative; z-index: 1; }
+        .map-frame { width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity 0.5s; position: relative; z-index: 2; }
         .map-wrapper.loaded .map-frame { opacity: 1; }
 
         /* 時間軸與細節 */
-        .details { padding: 5px 20px 20px 20px; }
+        .details { padding: 10px 20px 25px 20px; }
         
         .timeline-item {
             position: relative;
-            padding-left: 20px;
-            margin-top: 20px;
-            /* 調整時間軸線顏色 */
-            border-left: 2px solid rgba(0,0,0,0.1);
+            padding-left: 24px;
+            margin-top: 24px;
+            border-left: 2px solid rgba(0,0,0,0.06);
         }
 
         .timeline-dot {
@@ -197,29 +188,26 @@
             width: 10px; height: 10px;
             border-radius: 50%;
             background: #fff;
-            /* 調整圓點陰影 */
-            box-shadow: 0 0 0 3px var(--card-bg);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.8);
         }
         
-        /* 依主題變色 (圓點本體顏色) */
+        /* 依主題變色 */
         body[data-theme="osaka"] .timeline-dot { background: var(--accent-osaka); }
         body[data-theme="kyoto"] .timeline-dot { background: var(--accent-kyoto); }
         body[data-theme="kobe"] .timeline-dot { background: var(--accent-kobe); }
 
         .time {
             font-size: 13px; font-weight: 700;
-            margin-bottom: 5px; display: block;
-            color: var(--text-sec);
+            margin-bottom: 6px; display: block;
         }
 
-        /* 依主題變色 (時間文字顏色) */
         body[data-theme="osaka"] .time { color: var(--accent-osaka); }
         body[data-theme="kyoto"] .time { color: var(--accent-kyoto); }
         body[data-theme="kobe"] .time { color: var(--accent-kobe); }
 
-        .activity { font-size: 15px; line-height: 1.6; color: var(--text); }
+        .activity { font-size: 15px; line-height: 1.6; color: var(--text-main); }
 
-        /* 功能按鈕 (亮色系) */
+        /* 功能按鈕 */
         .btn-group {
             margin-top: 12px;
             display: flex;
@@ -232,46 +220,36 @@
             align-items: center;
             gap: 6px;
             padding: 8px 14px;
-            border-radius: 20px;
+            border-radius: 18px;
             font-size: 13px;
             font-weight: 600;
             text-decoration: none;
             transition: 0.2s;
-            /* 預設淺灰色按鈕 */
-            background: #f0f2f5;
-            color: var(--text);
-            border: 1px solid transparent;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
         
-        .live-btn:active { background: #e4e6e9; }
+        .live-btn:active { transform: scale(0.96); }
 
-        /* 交通按鈕樣式 (亮色強調) */
-        .live-btn.train {
-            background: #E3F2FD; /* 淺藍 */
-            color: #1565C0;       /* 深藍字 */
-        }
-        .live-btn.walk {
-            background: #E8F5E9; /* 淺綠 */
-            color: #2E7D32;       /* 深綠字 */
-        }
+        /* 交通按鈕樣式 */
+        .live-btn.train { color: #007AFF; }
+        .live-btn.walk { color: #34C759; }
 
         .note {
             margin-top: 12px;
-            font-size: 14px;
-            color: var(--text-sec);
-            /* 亮黃色背景提示 */
-            background: #FFFDE7; 
+            font-size: 13px;
+            color: #856404;
+            background: #FFF3CD;
             padding: 12px;
             border-radius: 12px;
-            border-left: 4px solid #FFD600;
             line-height: 1.5;
         }
-
+        
     </style>
 </head>
 <body data-theme="osaka">
 
-    <div id="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1590559899731-a3828395a229?q=80&w=2070&auto=format&fit=crop');"></div>
+    <div id="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1552560229-8a34a814a57c?q=80&w=2074&auto=format&fit=crop');"></div>
 
     <div class="header">
         <div class="title-bar">
@@ -297,15 +275,15 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:30 - 11:30</span>
-                    [cite_start]<span class="activity">抵達 KIX [cite: 3][cite_start]，入境、領行李、過海關 [cite: 4][cite_start]。於機場購買 ICOCA 卡 [cite: 6][cite_start]，可簡單吃輕食 [cite: 7]。</span>
+                    <span class="activity">飛機抵達 KIX，入境、領行李。於機場購買 ICOCA 卡，建議在機場超商簡單吃點輕食。</span>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">11:30 - 12:40</span>
-                    [cite_start]<span class="activity">前往森之宮飯店 [cite: 8]。</span>
+                    <span class="activity">前往森之宮飯店 (JR 關空快速 → 大阪環狀線)。</span>
                     <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Kansai+International+Airport&destination=Morinomiya+Station&travelmode=transit" target="_blank" class="live-btn train">
-                            [cite_start]🚃 即時車況 (關空快速+環狀線) [cite: 9]
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=Morinomiya+Station&travelmode=transit" target="_blank" class="live-btn train">
+                            🚃 即時車況導航
                         </a>
                     </div>
                 </div>
@@ -322,8 +300,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">13:30 - 16:00</span>
-                    [cite_start]<span class="activity">大阪城公園散步 [cite: 11][cite_start]。若不進天守閣可當作散步行程 [cite: 13]。</span>
-                    [cite_start]<div class="note">⚠️ 公園風大很冷，記得帶帽子/圍巾 [cite: 32]。</div>
+                    <span class="activity">大阪城公園散步。若想進天守閣請預留 1.5 小時，不想排隊則在公園拍照即可。</span>
+                    <div class="note">⚠️ 冬天公園空曠風大，請務必戴帽子與圍巾。</div>
                 </div>
             </div>
         </div>
@@ -338,23 +316,13 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">16:30 - 16:45</span>
-                    [cite_start]<span class="activity">移動至心齋橋 [cite: 15]。</span>
-                    <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Shinsaibashi+Station&travelmode=transit" target="_blank" class="live-btn train">
-                            [cite_start]🚇 長堀鶴見綠地線 [cite: 16]
-                        </a>
-                    </div>
+                    <span class="activity">搭乘地鐵前往心齋橋 (長堀鶴見綠地線)。</span>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
-                    <span class="time">16:45 - 19:30</span>
-                    [cite_start]<span class="activity">心齋橋商店街(藥妝) [cite: 18][cite_start]、美國村(古著)逛街 [cite: 19]。</span>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">19:30 - 21:30</span>
-                    [cite_start]<span class="activity">道頓堀看格力高跑跑人 [cite: 21][cite_start]，晚餐吃章魚燒、拉麵等 [cite: 22]。</span>
-                    [cite_start]<div class="note">⚠️ 人潮多，注意背包拉鍊 [cite: 33]。</div>
+                    <span class="time">16:45 - 21:30</span>
+                    <span class="activity">心齋橋藥妝店採買、美國村逛古著。晚餐於道頓堀享用 (拉麵、串炸、章魚燒)。</span>
+                    <div class="note">⚠️ 人潮擁擠，請將背包背在胸前防竊。</div>
                 </div>
             </div>
         </div>
@@ -371,22 +339,17 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:20 - 09:40</span>
-                    [cite_start]<span class="activity">前往梅田(大阪站) [cite: 41]。</span>
+                    <span class="activity">前往梅田 (搭乘 JR 大阪環狀線至大阪站)。</span>
                     <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Osaka+Station&travelmode=transit" target="_blank" class="live-btn train">
-                            [cite_start]🚃 JR 大阪環狀線 [cite: 42]
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=Osaka+Station&travelmode=transit" target="_blank" class="live-btn train">
+                            🚃 查看電車路線
                         </a>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:40 - 12:00</span>
-                    [cite_start]<span class="activity">梅田逛街：百貨或 Yodobashi Camera [cite: 44]。</span>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">12:00 - 13:30</span>
-                    [cite_start]<span class="activity">梅田吃午餐 [cite: 46]。</span>
+                    <span class="activity">逛 Grand Front Osaka 或 Yodobashi Camera (3C/家電/扭蛋)。</span>
                 </div>
             </div>
         </div>
@@ -401,8 +364,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">13:30 - 17:30</span>
-                    [cite_start]<span class="activity">續逛梅田地下街 [cite: 45] 或周邊商場，享受悠閒下午。</span>
-                    <div class="note">💡 行程調整：時間充裕，可深度探索梅田地區。</div>
+                    <span class="activity">午餐後繼續探索梅田。推薦 LUCUA 百貨 (年輕潮流) 或 Whity 地下街。也可前往中崎町咖啡街散步。</span>
                 </div>
             </div>
         </div>
@@ -417,13 +379,13 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">18:00 - 20:00</span>
-                    [cite_start]<span class="activity">梅田空中庭園夜景+晚餐 [cite: 60]。</span>
+                    <span class="activity">欣賞 360 度夜景，晚餐可於地下層「瀧見小路」享用。</span>
                     <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Osaka+Station&destination=Umeda+Sky+Building&travelmode=walking" target="_blank" class="live-btn walk">
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=Umeda+Sky+Building&travelmode=walking" target="_blank" class="live-btn walk">
                             🚶 步行導航
                         </a>
                     </div>
-                    [cite_start]<div class="note">⚠️ 戶外展望層會很冷，一定要帶帽子、圍巾 [cite: 75]。</div>
+                    <div class="note">⚠️ 戶外展望層風大極冷，必備保暖衣物。</div>
                 </div>
             </div>
         </div>
@@ -440,18 +402,18 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">08:00 - 09:00</span>
-                    [cite_start]<span class="activity">前往伏見稻荷 [cite: 81]。</span>
+                    <span class="activity">前往伏見稻荷 (JR 環狀線至京橋 → 轉京阪本線)。</span>
                     <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Kyobashi+Station+(Osaka)&destination=Fushimi-Inari+Station&travelmode=transit" target="_blank" class="live-btn train">
-                            [cite_start]🚃 京阪本線 (京橋轉車) [cite: 83]
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=Fushimi+Inari+Taisha&travelmode=transit" target="_blank" class="live-btn train">
+                            🚃 查看轉乘資訊
                         </a>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:00 - 11:30</span>
-                    [cite_start]<span class="activity">參拜本殿 [cite: 86][cite_start]，走千本鳥居 [cite: 87]。</span>
-                    [cite_start]<div class="note">⚠️ 越早到越好，9點前最舒服 [cite: 110][cite_start]。是爬坡行程，穿好走的鞋 [cite: 111]。</div>
+                    <span class="activity">參拜千本鳥居。建議走到半山腰即可折返。</span>
+                    <div class="note">⚠️ 爬坡行程，請穿好走的鞋。建議 9 點前抵達避開人潮。</div>
                 </div>
             </div>
         </div>
@@ -466,8 +428,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">13:00 - 15:30</span>
-                    [cite_start]<span class="activity">逛清水舞台 [cite: 95][cite_start]。回程沿著二年坂、三年坂逛街 [cite: 96]。</span>
-                    [cite_start]<div class="note">⚠️ 路面有石板，會滑，小心腳步 [cite: 112]。</div>
+                    <span class="activity">參觀清水舞台、音羽瀑布。回程沿著二年坂、三年坂逛老街、吃抹茶甜點。</span>
+                    <div class="note">⚠️ 石板路面容易滑，行走請小心。</div>
                 </div>
             </div>
         </div>
@@ -482,17 +444,12 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">15:30 - 19:00</span>
-                    [cite_start]<span class="activity">八坂神社參拜 [cite: 98][cite_start]，走花見小路 [cite: 99][cite_start]，晚餐 [cite: 100]。</span>
+                    <span class="activity">參拜八坂神社，漫步花見小路。晚餐於河原町周邊享用。</span>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
-                    <span class="time">19:00 - 20:00</span>
-                    [cite_start]<span class="activity">返回大阪 [cite: 101]。</span>
-                    <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Gion-Shijo+Station&destination=Morinomiya+Station&travelmode=transit" target="_blank" class="live-btn train">
-                            [cite_start]🚃 京阪本線特急 [cite: 102]
-                        </a>
-                    </div>
+                    <span class="time">19:30 - 20:30</span>
+                    <span class="activity">返回大阪 (京阪本線特急至京橋 → 轉 JR 環狀線)。</span>
                 </div>
             </div>
         </div>
@@ -509,18 +466,18 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:00 - 09:30</span>
-                    [cite_start]<span class="activity">前往神戶三宮 [cite: 119]。</span>
+                    <span class="activity">前往神戶三宮 (JR 神戶線新快速)。</span>
                     <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Osaka+Station&destination=Sannomiya+Station&travelmode=transit" target="_blank" class="live-btn train">
-                            [cite_start]🚃 JR 神戶線新快速 [cite: 120]
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=Sannomiya+Station&travelmode=transit" target="_blank" class="live-btn train">
+                            🚃 即時車況
                         </a>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:30 - 12:00</span>
-                    [cite_start]<span class="activity">北野異人館區散步 [cite: 121][cite_start]，挑幾棟洋館進去 [cite: 123]。</span>
-                    [cite_start]<div class="note">🚶 坡道多，步調放慢 [cite: 150]。</div>
+                    <span class="activity">北野異人館區散步，挑選 1-2 棟洋館參觀 (如風見雞之館)。</span>
+                    <div class="note">🚶 此區坡道多，步調請放慢。</div>
                 </div>
             </div>
         </div>
@@ -535,7 +492,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">15:00 - 16:30</span>
-                    [cite_start]<span class="activity">南京町吃小籠包、包子等點心 [cite: 132]。</span>
+                    <span class="activity">南京町吃老祥記包子、小籠包等點心。</span>
                 </div>
             </div>
         </div>
@@ -550,8 +507,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">17:00 - 20:00</span>
-                    [cite_start]<span class="activity">Meriken Park 拍「BE KOBE」[cite: 136][cite_start]。Harborland 晚餐 [cite: 138]。</span>
-                    [cite_start]<div class="note">❄️ 港邊風非常冷，一定要戴圍巾+帽子 [cite: 152]。</div>
+                    <span class="activity">Meriken Park 拍「BE KOBE」地標。晚餐於 Harborland MOSAIC 餐廳享用。</span>
+                    <div class="note">❄️ 港邊海風強勁，請務必戴圍巾帽子保暖。</div>
                 </div>
             </div>
         </div>
@@ -568,72 +525,68 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:00 - 11:00</span>
-                    [cite_start]<span class="activity">最後購物時間(藥妝/3C) [cite: 160, 161, 162]。</span>
+                    <span class="activity">最後補貨 (心齋橋藥妝 / 梅田電器)。</span>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">11:30 - 12:30</span>
-                    [cite_start]<span class="activity">前往關西機場 [cite: 164]。</span>
+                    <span class="activity">前往關西機場 (預抓飛機起飛前 2.5-3 小時抵達)。</span>
                     <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Kansai+International+Airport&travelmode=transit" target="_blank" class="live-btn train">
-                            [cite_start]🚃 關空快速 / HARUKA [cite: 165, 166]
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=Kansai+International+Airport&travelmode=transit" target="_blank" class="live-btn train">
+                            🚃 路線查詢 (HARUKA/關空快速)
                         </a>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">12:30 - 15:00</span>
-                    [cite_start]<span class="activity">機場 Check-in、逛免稅店、登機 [cite: 167]。</span>
-                    [cite_start]<div class="note">⚠️ 液體、膠狀物記得裝在透明袋 [cite: 172]。</div>
+                    <span class="activity">機場 Check-in、托運、逛免稅店、登機。</span>
+                    <div class="note">⚠️ 液體、膠狀物記得裝在透明袋或放入托運行李。</div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 更新後的背景圖片 (亮色系/白天)
+        // 背景圖庫 (亮色系/白天風景)
         const bgs = {
-            // 大阪：明亮的大阪城公園
-            osaka: "https://images.unsplash.com/photo-1590559899731-a3828395a229?q=80&w=2070&auto=format&fit=crop",
-            // 京都：清水寺與藍天 (保留原圖)
-            kyoto: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2070&auto=format&fit=crop",
-            // 神戶：明亮的港口公園
-            kobe: "https://images.unsplash.com/photo-1634225253501-365446721116?q=80&w=1973&auto=format&fit=crop"
+            osaka: "https://images.unsplash.com/photo-1552560229-8a34a814a57c?q=80&w=2074&auto=format&fit=crop", // 大阪城白天
+            kyoto: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2070&auto=format&fit=crop", // 清水寺白天
+            kobe: "https://images.unsplash.com/photo-1572883454114-1cf0031a026e?q=80&w=1974&auto=format&fit=crop"   // 神戶塔白天
         };
 
         function switchTab(dayId, theme) {
-            // 1. 切換內容顯示
+            // 切換內容
             document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
             document.getElementById(dayId).classList.add('active');
             
-            // 2. 切換按鈕狀態
+            // 切換按鈕
             document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-            const btnIndex = ['d1','d2','d3','d4','d5'].indexOf(dayId);
-            if(document.querySelectorAll('.tab')[btnIndex]) {
-                document.querySelectorAll('.tab')[btnIndex].classList.add('active');
+            const index = ['d1','d2','d3','d4','d5'].indexOf(dayId);
+            if(document.querySelectorAll('.tab')[index]) {
+                document.querySelectorAll('.tab')[index].classList.add('active');
             }
             
-            // 3. 切換主題變數
+            // 設定主題屬性 (CSS 變數用)
             document.body.setAttribute('data-theme', theme);
 
-            // 4. 切換背景圖片 (淡入淡出效果)
+            // 切換背景圖 (淡入淡出)
             const bgLayer = document.getElementById('bg-layer');
-            const newBgUrl = `url('${bgs[theme]}')`;
+            const newUrl = `url('${bgs[theme]}')`;
             
-            // 只有當背景圖真的改變時才執行切換動畫
-            if (bgLayer.style.backgroundImage !== newBgUrl) {
-                bgLayer.style.opacity = 0; // 先淡出
+            if (bgLayer.style.backgroundImage !== newUrl) {
+                bgLayer.style.opacity = 0;
                 setTimeout(() => {
-                    bgLayer.style.backgroundImage = newBgUrl;
-                    bgLayer.style.opacity = 1; // 再淡入
-                }, 300); // 等待 CSS transition 完成
+                    bgLayer.style.backgroundImage = newUrl;
+                    bgLayer.style.opacity = 1;
+                }, 300);
             }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function toggleMap(card, locationName) {
-            if(event.target.closest('a')) return; // 點擊連結不觸發
+            if(event.target.closest('a')) return;
 
             card.classList.toggle('expanded');
             const wrapper = card.querySelector('.map-wrapper');
@@ -641,16 +594,18 @@
             if (card.classList.contains('expanded')) {
                 if (!wrapper.classList.contains('loaded')) {
                     const encodedLoc = encodeURIComponent(locationName);
-                    // 嵌入 Google Map
                     wrapper.innerHTML = `
                         <iframe 
                             class="map-frame" 
-                            src="https://maps.google.com/maps?q=${encodedLoc}&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                            allowfullscreen
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d135.5!3d34.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1szh-TW!2stw!4v1234567890!5m2!1szh-TW!2stw&q=${encodedLoc}&output=embed" 
+                            allowfullscreen 
                             loading="lazy">
                         </iframe>
                     `;
-                    // 稍微延遲移除載入文字，讓 iframe 有時間載入
+                    // 這裡使用通用的 embed URL 結構，實際顯示時 Google 會自動處理搜尋
+                    // 為了確保最佳相容性，使用 output=embed 參數
+                    wrapper.innerHTML = `<iframe class="map-frame" src="https://maps.google.com/maps?q=${encodedLoc}&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>`;
+                    
                     setTimeout(() => wrapper.classList.add('loaded'), 300);
                 }
                 wrapper.style.height = "250px";
@@ -658,13 +613,6 @@
                 wrapper.style.height = "0";
             }
         }
-        
-        // 頁面載入時觸發一次背景設定，確保第一張圖正確
-        document.addEventListener('DOMContentLoaded', () => {
-            const bgLayer = document.getElementById('bg-layer');
-            // 這裡強制設定為大阪的圖，與 HTML 中的 style 一致，確保 JS 變數同步
-            bgLayer.style.backgroundImage = `url('${bgs.osaka}')`; 
-        });
     </script>
 </body>
 </html>
