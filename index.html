@@ -6,7 +6,7 @@
     <title>關西 5 天 4 夜</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="關西之旅">
     <link rel="apple-touch-icon" href="https://img.icons8.com/color/180/torii.png">
     
@@ -27,7 +27,6 @@
             /* 卡片風格 */
             --card-bg: rgba(255, 255, 255, 0.96);
             --card-border: #E0DCD5;
-            --header-bg: rgba(244, 241, 234, 0.92);
             --shadow: 0 4px 20px rgba(43, 43, 43, 0.06);
 
             /* 主題強調色 */
@@ -36,6 +35,10 @@
             --accent-kobe: #3E62AD;
             
             --line-color: #D3D3D3;
+
+            /* 預設 Header 漸層色 (大阪紅) */
+            --header-gradient-1: rgba(183, 75, 75, 0.15);
+            --header-gradient-2: rgba(244, 241, 234, 0.95);
         }
 
         body {
@@ -63,17 +66,41 @@
             filter: brightness(0.9) sepia(0.1);
         }
         
-        /* 頂部導航 */
+        /* === 頂部導航 (iOS 天氣風格動態漸層) === */
         .header {
-            background: var(--header-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(0,0,0,0.03);
             padding-top: env(safe-area-inset-top);
             padding-bottom: 8px;
+            overflow: hidden; /* 確保動畫不溢出 */
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.5s ease;
+        }
+
+        /* 動態背景層 */
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            z-index: -1;
+            background: linear-gradient(
+                60deg, 
+                var(--header-gradient-2), 
+                var(--header-gradient-1), 
+                var(--header-gradient-2)
+            );
+            background-size: 200% 200%;
+            animation: aurora 8s ease infinite; /* 極光流動動畫 */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        @keyframes aurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .title-container {
@@ -81,6 +108,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 15px 24px 5px 24px;
+            position: relative; /* 確保在背景之上 */
         }
 
         .title-bar {
@@ -89,21 +117,23 @@
             font-size: 22px;
             color: var(--text-main);
             letter-spacing: 0.1em;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.8);
         }
 
-        /* 天氣小卡 */
+        /* 天氣小卡 - 半透明玻璃 */
         .weather-badge {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
             padding: 6px 14px;
-            border-radius: 4px;
+            border-radius: 20px;
             font-size: 12px;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--text-sub);
-            border: 1px solid #E5E0D8;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
             font-family: 'Noto Serif JP', serif;
         }
@@ -115,6 +145,7 @@
             padding: 10px 20px 12px 20px;
             scrollbar-width: none;
             gap: 16px;
+            position: relative;
         }
         .tabs::-webkit-scrollbar { display: none; }
 
@@ -125,7 +156,7 @@
             font-family: 'Noto Serif JP', serif;
             font-size: 15px;
             font-weight: 600;
-            color: #999;
+            color: rgba(43, 43, 43, 0.5);
             border: none;
             transition: all 0.4s ease;
             position: relative;
@@ -144,11 +175,14 @@
             transition: width 0.3s ease;
         }
 
-        body[data-theme="osaka"] .tab.active { color: var(--accent-osaka); }
+        /* 動態主題色按鈕 */
+        body[data-theme="osaka"] .tab.active { color: var(--accent-osaka); text-shadow: 0 0 20px rgba(183, 75, 75, 0.3); }
         body[data-theme="osaka"] .tab.active::after { width: 100%; background-color: var(--accent-osaka); }
-        body[data-theme="kyoto"] .tab.active { color: var(--accent-kyoto); }
+        
+        body[data-theme="kyoto"] .tab.active { color: var(--accent-kyoto); text-shadow: 0 0 20px rgba(106, 76, 156, 0.3); }
         body[data-theme="kyoto"] .tab.active::after { width: 100%; background-color: var(--accent-kyoto); }
-        body[data-theme="kobe"] .tab.active { color: var(--accent-kobe); }
+        
+        body[data-theme="kobe"] .tab.active { color: var(--accent-kobe); text-shadow: 0 0 20px rgba(62, 98, 173, 0.3); }
         body[data-theme="kobe"] .tab.active::after { width: 100%; background-color: var(--accent-kobe); }
 
         /* 內容區與動畫 */
@@ -188,9 +222,7 @@
         .card::before {
             content: '';
             position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
+            left: 0; top: 0; bottom: 0;
             width: 4px;
             background: #ccc;
             transition: background 0.3s;
@@ -382,10 +414,10 @@
         .p-jp { display: block; font-family: 'Noto Serif JP', serif; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 4px; }
         .p-zh { display: block; font-size: 11px; color: #888; }
 
-        /* 按鈕共用樣式 (地鐵圖 + 相機) */
+        /* 按鈕共用樣式 */
         .map-link-btn {
             display: block; width: 100%; padding: 14px;
-            background: #5D7259; /* 竹青色 */
+            background: #5D7259;
             color: white;
             text-align: center; text-decoration: none;
             border-radius: 4px; font-weight: 500; font-size: 14px;
@@ -395,7 +427,7 @@
         }
         .map-link-btn:active { background: #4B5E48; }
         
-        .cam-btn { background: #4A4F55; margin-top: 8px; } /* 墨灰 */
+        .cam-btn { background: #4A4F55; margin-top: 8px; }
         .cam-btn:active { background: #2F3439; }
 
         @keyframes fadeIn { from{opacity:0; transform: translateY(10px);} to{opacity:1; transform: translateY(0);} }
@@ -729,9 +761,9 @@
             </div>
 
             <div class="tool-section">
-                <div class="tool-title">📷 カメラ翻訳</div>
+                <div class="tool-title">📷 相機翻譯</div>
                 <a href="https://translate.google.com/?sl=ja&tl=zh-TW&op=images" target="_blank" class="map-link-btn cam-btn">
-                    カメラ翻訳を起動
+                    啟動相機翻譯
                 </a>
             </div>
         </div>
@@ -745,7 +777,7 @@
         // 匯率固定
         let currentRate = 0.2;
 
-        // 當前頁面索引 (0-4)
+        // 當前頁面索引
         let currentIndex = 0;
         const totalDays = 5;
 
@@ -757,13 +789,22 @@
                 const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=Asia%2FTokyo`);
                 const data = await res.json();
                 const code = data.current_weather.weathercode;
-                const info = weatherCodes[code] || { icon: '🌡️', text: '' };
+                const isDay = data.current_weather.is_day; // 1=Day, 0=Night
+                
+                let info = weatherCodes[code] || { icon: '🌡️', text: '' };
+                
+                // 夜間圖標切換邏輯
+                if (isDay === 0) {
+                    if (code === 0 || code === 1) info.icon = '🌙'; // 晴朗夜晚
+                    else if (code === 2 || code === 3) info.icon = '☁️'; // 陰天夜晚 (不帶太陽)
+                }
+
                 iconEl.innerText = info.icon;
                 tempEl.innerText = `${coords[cityKey].name} ${Math.round(data.current_weather.temperature)}°C`;
             } catch (e) { tempEl.innerText = "天氣載入失敗"; }
         }
 
-        // 核心切換功能 (支援滑動動畫)
+        // 核心切換功能
         function jumpToTab(index, direction = 'none') {
             if (index < 0 || index >= totalDays) return;
             
@@ -773,6 +814,15 @@
             const themes = ['osaka', 'osaka', 'kyoto', 'kobe', 'osaka'];
             const targetId = ids[index];
             const theme = themes[index];
+
+            // 更新 CSS 變數以改變 Header 漸層色
+            if (theme === 'osaka') {
+                document.documentElement.style.setProperty('--header-gradient-1', 'rgba(183, 75, 75, 0.15)');
+            } else if (theme === 'kyoto') {
+                document.documentElement.style.setProperty('--header-gradient-1', 'rgba(106, 76, 156, 0.15)');
+            } else if (theme === 'kobe') {
+                document.documentElement.style.setProperty('--header-gradient-1', 'rgba(62, 98, 173, 0.15)');
+            }
 
             // 處理內容切換與動畫
             document.querySelectorAll('.content').forEach(el => {
@@ -806,13 +856,6 @@
             fetchWeather(city);
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // 為了相容原本的 onclick 字串呼叫，保留此介面但內部轉發
-        function switchTab(dayId, theme) {
-            const ids = ['d1', 'd2', 'd3', 'd4', 'd5'];
-            const idx = ids.indexOf(dayId);
-            jumpToTab(idx);
         }
 
         function toggleMap(card, loc) {
