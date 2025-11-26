@@ -103,25 +103,22 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 標題容器：改為 Relative 以便絕對定位子元素 */
         .title-container {
             position: relative;
             display: flex;
             align-items: center;
-            justify-content: center; /* 標題置中 */
+            justify-content: center;
             padding: 15px 24px 5px 24px;
-            height: 50px; /* 固定高度確保對齊 */
+            height: 50px;
         }
 
-        /* 標題文字：增加底色 Pill */
+        /* 標題文字 Pill */
         .title-bar {
             font-family: 'Noto Serif JP', serif;
             font-weight: 700;
             font-size: 18px;
             color: var(--text-main);
             letter-spacing: 0.1em;
-            
-            /* 新增：標題底色特效 */
             background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -132,13 +129,12 @@
             z-index: 2;
         }
 
-        /* 天氣小卡：絕對定位到右側 */
+        /* 天氣小卡 */
         .weather-badge {
             position: absolute;
             right: 20px;
             top: 50%;
-            transform: translateY(-40%); /* 垂直置中修正 */
-            
+            transform: translateY(-40%);
             display: flex;
             align-items: center;
             gap: 6px;
@@ -162,46 +158,62 @@
             overflow-x: auto;
             padding: 10px 20px 12px 20px;
             scrollbar-width: none;
-            gap: 16px;
+            gap: 12px; /* 調整間距 */
             position: relative;
         }
         .tabs::-webkit-scrollbar { display: none; }
 
+        /* Tab 按鈕 - 鵝卵石/藥丸風格 */
         .tab {
             flex: 0 0 auto;
-            padding: 6px 0;
-            background: transparent;
+            padding: 8px 16px; /* 增加內距 */
+            
+            /* 磨砂底色設定 */
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            
+            border-radius: 20px; /* 圓潤造型 */
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            
             font-family: 'Noto Serif JP', serif;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
-            color: rgba(43, 43, 43, 0.5);
-            border: none;
-            transition: all 0.4s ease;
+            color: #666;
+            
+            transition: all 0.3s ease;
             position: relative;
             letter-spacing: 0.05em;
         }
         
-        .tab::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background-color: transparent;
-            transition: width 0.3s ease;
-        }
+        /* 移除原本的底線樣式 */
+        .tab::after { content: none; }
 
-        /* 動態主題色按鈕 */
-        body[data-theme="osaka"] .tab.active { color: var(--accent-osaka); text-shadow: 0 0 20px rgba(183, 75, 75, 0.3); }
-        body[data-theme="osaka"] .tab.active::after { width: 100%; background-color: var(--accent-osaka); }
+        /* 動態主題色按鈕 - 選中時變為實心白紙質感 + 色彩邊框 */
+        body[data-theme="osaka"] .tab.active { 
+            background: #fff; 
+            color: var(--accent-osaka); 
+            border-color: var(--accent-osaka); 
+            box-shadow: 0 4px 12px rgba(183, 75, 75, 0.2); 
+            transform: translateY(-1px);
+        }
         
-        body[data-theme="kyoto"] .tab.active { color: var(--accent-kyoto); text-shadow: 0 0 20px rgba(106, 76, 156, 0.3); }
-        body[data-theme="kyoto"] .tab.active::after { width: 100%; background-color: var(--accent-kyoto); }
+        body[data-theme="kyoto"] .tab.active { 
+            background: #fff; 
+            color: var(--accent-kyoto); 
+            border-color: var(--accent-kyoto); 
+            box-shadow: 0 4px 12px rgba(106, 76, 156, 0.2);
+            transform: translateY(-1px);
+        }
         
-        body[data-theme="kobe"] .tab.active { color: var(--accent-kobe); text-shadow: 0 0 20px rgba(62, 98, 173, 0.3); }
-        body[data-theme="kobe"] .tab.active::after { width: 100%; background-color: var(--accent-kobe); }
+        body[data-theme="kobe"] .tab.active { 
+            background: #fff; 
+            color: var(--accent-kobe); 
+            border-color: var(--accent-kobe); 
+            box-shadow: 0 4px 12px rgba(62, 98, 173, 0.2);
+            transform: translateY(-1px);
+        }
 
         /* 內容區與動畫 */
         .content-container {
@@ -787,7 +799,7 @@
         </div>
     </div>
 
-  <script>
+    <script>
         const bgs = { d1: "Day1.jpg", d2: "Day2.jpg", d3: "Day3.jpg", d4: "Day4.jpg", d5: "Day5.jpg" };
         const coords = { osaka: { lat: 34.6937, lon: 135.5023, name: "大阪" }, kyoto: { lat: 35.0116, lon: 135.7681, name: "京都" }, kobe: { lat: 34.6901, lon: 135.1955, name: "神戶" } };
         const weatherCodes = { 0: { icon: '☀️', text: '晴' }, 1: { icon: '🌤️', text: '多雲' }, 2: { icon: '☁️', text: '陰' }, 3: { icon: '☁️', text: '陰' }, 51: { icon: '🌧️', text: '小雨' }, 61: { icon: '🌧️', text: '雨' }, 80: { icon: '🌦️', text: '陣雨' }, 95: { icon: '⛈️', text: '雷雨' } };
@@ -856,7 +868,6 @@
             document.querySelectorAll('.tab').forEach((el, i) => {
                 if (i === index) {
                     el.classList.add('active');
-                    // 手動計算滾動位置，只滾動 tabs 容器，不影響 window
                     const scrollLeft = el.offsetLeft - (tabsContainer.offsetWidth / 2) + (el.offsetWidth / 2);
                     tabsContainer.scrollTo({ left: scrollLeft, behavior: 'smooth' });
                 } else {
@@ -876,13 +887,6 @@
             fetchWeather(city);
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // 相容性轉發
-        function switchTab(dayId, theme) {
-            const ids = ['d1', 'd2', 'd3', 'd4', 'd5'];
-            const idx = ids.indexOf(dayId);
-            jumpToTab(idx);
         }
 
         function toggleMap(card, loc) {
