@@ -36,7 +36,7 @@
             
             --line-color: #D3D3D3;
 
-            /* 預設 Header 漸層色 (大阪紅) */
+            /* Header 漸層色 */
             --header-gradient-1: rgba(183, 75, 75, 0.15);
             --header-gradient-2: rgba(244, 241, 234, 0.95);
         }
@@ -66,19 +66,19 @@
             filter: brightness(0.9) sepia(0.1);
         }
         
-        /* === 頂部導航 (iOS 天氣風格動態漸層) === */
+        /* === 頂部導航 === */
         .header {
             position: sticky;
             top: 0;
             z-index: 100;
             padding-top: env(safe-area-inset-top);
             padding-bottom: 8px;
-            overflow: hidden; /* 確保動畫不溢出 */
+            overflow: hidden;
             border-bottom: 1px solid rgba(255,255,255,0.3);
             transition: all 0.5s ease;
         }
 
-        /* 動態背景層 */
+        /* 極光背景動畫 */
         .header::before {
             content: '';
             position: absolute;
@@ -92,7 +92,7 @@
                 var(--header-gradient-2)
             );
             background-size: 200% 200%;
-            animation: aurora 8s ease infinite; /* 極光流動動畫 */
+            animation: aurora 8s ease infinite;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
@@ -103,39 +103,57 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* 標題容器：改為 Relative 以便絕對定位子元素 */
         .title-container {
+            position: relative;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center; /* 標題置中 */
             padding: 15px 24px 5px 24px;
-            position: relative; /* 確保在背景之上 */
+            height: 50px; /* 固定高度確保對齊 */
         }
 
+        /* 標題文字：增加底色 Pill */
         .title-bar {
             font-family: 'Noto Serif JP', serif;
             font-weight: 700;
-            font-size: 22px;
+            font-size: 18px;
             color: var(--text-main);
             letter-spacing: 0.1em;
-            text-shadow: 0 2px 10px rgba(255,255,255,0.8);
+            
+            /* 新增：標題底色特效 */
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 4px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.4);
+            z-index: 2;
         }
 
-        /* 天氣小卡 - 半透明玻璃 */
+        /* 天氣小卡：絕對定位到右側 */
         .weather-badge {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-40%); /* 垂直置中修正 */
+            
             display: flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.6);
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-sub);
             border: 1px solid rgba(255,255,255,0.5);
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
             font-family: 'Noto Serif JP', serif;
+            z-index: 2;
         }
         .weather-badge.loading { opacity: 0.7; }
         
@@ -440,7 +458,7 @@
 
     <div class="header">
         <div class="title-container">
-            <div class="title-bar">関西の旅</div>
+            <div class="title-bar">關西之旅</div>
             <div class="weather-badge" id="weather-widget">
                 <span class="weather-icon" id="weather-icon">⏳</span>
                 <span class="weather-temp" id="weather-temp">Loading...</span>
@@ -756,7 +774,7 @@
             <div class="tool-section">
                 <div class="tool-title">🗺️ 大阪地鐵</div>
                 <a href="https://subway.osakametro.co.jp/cn/guide/routemap.php" target="_blank" class="map-link-btn">
-                    路線図を見る
+                    查看大阪地鐵圖
                 </a>
             </div>
 
@@ -796,7 +814,7 @@
                 // 夜間圖標切換邏輯
                 if (isDay === 0) {
                     if (code === 0 || code === 1) info.icon = '🌙'; // 晴朗夜晚
-                    else if (code === 2 || code === 3) info.icon = '☁️'; // 陰天夜晚 (不帶太陽)
+                    else if (code === 2 || code === 3) info.icon = '☁️'; // 陰天夜晚
                 }
 
                 iconEl.innerText = info.icon;
