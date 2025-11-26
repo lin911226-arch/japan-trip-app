@@ -11,18 +11,20 @@
     <link rel="apple-touch-icon" href="https://img.icons8.com/color/180/torii.png">
     
     <style>
-        /* 亮色系全域變數 */
+        /* CSS Reset & 變數 */
+        * { box-sizing: border-box; } /* 關鍵修復：防止寬度溢出 */
+        
         :root {
             --primary: #FF5E57;
             --text-main: #1C1C1E;
             --text-sub: #636366;
             --bg-color: #F2F2F7;
-            --card-bg: rgba(255, 255, 255, 0.90);
+            --card-bg: rgba(255, 255, 255, 0.92);
             --card-border: rgba(255, 255, 255, 0.6);
             --header-bg: rgba(255, 255, 255, 0.85);
             --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 
-            /* 主題強調色 */
+            /* 主題色 */
             --accent-osaka: #FF3B30;
             --accent-kyoto: #AF52DE;
             --accent-kobe: #007AFF;
@@ -34,7 +36,7 @@
             color: var(--text-main);
             margin: 0;
             padding: 0;
-            padding-bottom: 100px; /* 增加底部留白給懸浮按鈕 */
+            padding-bottom: 100px;
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
         }
@@ -51,7 +53,7 @@
             filter: brightness(0.95); 
         }
         
-        /* 頂部導航區塊 */
+        /* 頂部導航 */
         .header {
             background: var(--header-bg);
             backdrop-filter: blur(25px);
@@ -260,26 +262,33 @@
         .modal-overlay.open { display: flex; animation: fadeIn 0.2s; }
         
         .modal-card {
-            width: 85%; max-width: 320px;
+            width: 90%; max-width: 320px; /* 限制寬度 */
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 24px;
-            padding: 20px;
+            padding: 24px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; gap: 20px;
         }
         
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; }
         .modal-title { font-size: 18px; font-weight: 800; color: #333; }
-        .close-btn { background: none; border: none; font-size: 24px; color: #999; cursor: pointer; }
+        .close-btn { background: none; border: none; font-size: 24px; color: #999; cursor: pointer; padding: 0; }
 
         /* 工具區塊 */
-        .tool-section { margin-bottom: 20px; }
-        .tool-title { font-size: 13px; font-weight: 700; color: #666; margin-bottom: 10px; letter-spacing: 1px; }
+        .tool-title { font-size: 13px; font-weight: 700; color: #666; margin-bottom: 8px; letter-spacing: 1px; }
         
         /* 匯率計算機 */
-        .calc-box { display: flex; gap: 10px; align-items: center; background: #f0f2f5; padding: 10px; border-radius: 12px; }
-        .calc-input { width: 100px; border: none; background: transparent; font-size: 18px; font-weight: bold; color: #333; text-align: right; outline: none; }
-        .calc-label { font-size: 14px; font-weight: 600; color: #666; }
+        .calc-box { 
+            display: flex; gap: 10px; align-items: center; 
+            background: #f0f2f5; padding: 12px; border-radius: 12px; 
+        }
+        .calc-input { 
+            flex: 1; min-width: 0; /* 防止溢出 */
+            border: none; background: transparent; 
+            font-size: 18px; font-weight: bold; color: #333; text-align: right; outline: none; 
+        }
+        .calc-label { font-size: 14px; font-weight: 600; color: #666; white-space: nowrap; }
         .calc-result { font-size: 18px; font-weight: bold; color: #007AFF; margin-left: auto; }
 
         /* 日語小卡 */
@@ -293,12 +302,13 @@
         .p-jp { display: block; font-size: 14px; font-weight: 700; color: #333; margin-bottom: 2px; }
         .p-zh { display: block; font-size: 11px; color: #888; }
 
-        /* 地鐵圖按鈕 */
+        /* 地鐵圖按鈕 - 修復溢出 */
         .map-link-btn {
             display: block; width: 100%; padding: 12px;
             background: #28C76F; color: white;
             text-align: center; text-decoration: none;
             border-radius: 12px; font-weight: 700; font-size: 14px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; /* 防止文字過長 */
         }
 
         @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
@@ -449,7 +459,7 @@
             </div>
 
             <div class="tool-section">
-                <div class="tool-title">💴 匯率試算 (約 0.22)</div>
+                <div class="tool-title" id="rate-title">💴 匯率試算 (載入中...)</div>
                 <div class="calc-box">
                     <input type="number" id="yenInput" class="calc-input" placeholder="日幣" oninput="calcRate()">
                     <span class="calc-label">円 ≈ </span>
@@ -465,15 +475,13 @@
                     <div class="phrase-btn" onclick="speak('Arigatou gozaimasu')"><span class="p-jp">ありがとうございます</span><span class="p-zh">謝謝</span></div>
                     <div class="phrase-btn" onclick="speak('Kore o kudasai')"><span class="p-jp">これをください</span><span class="p-zh">我要這個</span></div>
                     <div class="phrase-btn" onclick="speak('Okaikei onegaishimasu')"><span class="p-jp">お会計お願いします</span><span class="p-zh">請結帳</span></div>
-                    <div class="phrase-btn" onclick="speak('Toire wa doko desu ka')"><span class="p-jp">トイレはどこですか</span><span class="p-zh">廁所在哪</span></div>
-                    <div class="phrase-btn" onclick="speak('Eigo menyu wa arimasu ka')"><span class="p-jp">英語メニュー...</span><span class="p-zh">有英文菜單嗎</span></div>
                 </div>
             </div>
 
             <div class="tool-section">
                 <div class="tool-title">🗺️ 實用連結</div>
-                <a href="https://subway.osakametro.co.jp/cn/img/osakametro_rosenzu_cn_20240323.pdf" target="_blank" class="map-link-btn">
-                    📄 開啟大阪地鐵圖 (PDF)
+                <a href="https://subway.osakametro.co.jp/cn/guide/routemap.php" target="_blank" class="map-link-btn">
+                    📄 開啟大阪地鐵路線圖
                 </a>
             </div>
         </div>
@@ -483,6 +491,9 @@
         const bgs = { d1: "Day1.jpg", d2: "Day2.jpg", d3: "Day3.jpg", d4: "Day4.jpg", d5: "Day5.jpg" };
         const coords = { osaka: { lat: 34.6937, lon: 135.5023, name: "大阪" }, kyoto: { lat: 35.0116, lon: 135.7681, name: "京都" }, kobe: { lat: 34.6901, lon: 135.1955, name: "神戶" } };
         const weatherCodes = { 0: { icon: '☀️', text: '晴朗' }, 1: { icon: '🌤️', text: '多雲' }, 2: { icon: '☁️', text: '陰天' }, 3: { icon: '☁️', text: '陰天' }, 51: { icon: '🌧️', text: '小雨' }, 61: { icon: '🌧️', text: '下雨' }, 80: { icon: '🌦️', text: '陣雨' }, 95: { icon: '⛈️', text: '雷雨' } };
+
+        // 預設匯率
+        let currentRate = 0.22;
 
         async function fetchWeather(cityKey) {
             const tempEl = document.getElementById('weather-temp');
@@ -496,6 +507,22 @@
                 iconEl.innerText = info.icon;
                 tempEl.innerText = `${coords[cityKey].name} ${Math.round(data.current_weather.temperature)}°C`;
             } catch (e) { tempEl.innerText = "天氣載入失敗"; }
+        }
+
+        async function fetchExchangeRate() {
+            const title = document.getElementById('rate-title');
+            try {
+                // 使用 Frankfurter 免費 API 獲取 JPY -> TWD
+                const res = await fetch('https://api.frankfurter.app/latest?from=JPY&to=TWD');
+                const data = await res.json();
+                if(data && data.rates && data.rates.TWD) {
+                    currentRate = data.rates.TWD;
+                    title.innerText = `💴 匯率試算 (目前: ${currentRate.toFixed(3)})`;
+                }
+            } catch (e) {
+                console.error("Rate fetch failed, using default");
+                title.innerText = `💴 匯率試算 (預設: ${currentRate})`;
+            }
         }
 
         function switchTab(dayId, theme) {
@@ -538,7 +565,7 @@
         }
         function calcRate() {
             const yen = parseFloat(document.getElementById('yenInput').value) || 0;
-            const twd = Math.round(yen * 0.22); // 簡單匯率 0.22
+            const twd = Math.round(yen * currentRate);
             document.getElementById('twdResult').innerText = twd;
         }
         function speak(text) {
@@ -547,7 +574,11 @@
             speechSynthesis.speak(utterance);
         }
 
-        document.addEventListener('DOMContentLoaded', () => { fetchWeather('osaka'); });
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => { 
+            fetchWeather('osaka');
+            fetchExchangeRate(); // 抓取即時匯率
+        });
     </script>
 </body>
 </html>
