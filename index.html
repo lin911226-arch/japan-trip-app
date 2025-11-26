@@ -18,8 +18,8 @@
             --text-sub: #636366;
             --bg-color: #F2F2F7;
             
-            /* 毛玻璃卡片 (提高一點不透明度，因為背景現在變清晰了) */
-            --card-bg: rgba(255, 255, 255, 0.90);
+            /* 毛玻璃卡片 */
+            --card-bg: rgba(255, 255, 255, 0.92);
             --card-border: rgba(255, 255, 255, 0.6);
             --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 
@@ -40,7 +40,7 @@
             min-height: 100vh;
         }
 
-        /* 背景圖片層 - 移除模糊，改為微調亮度 */
+        /* 背景圖片層 - 無模糊，微調亮度 */
         #bg-layer {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -49,7 +49,6 @@
             background-repeat: no-repeat;
             z-index: -1;
             transition: opacity 0.5s ease-in-out;
-            /* 移除 blur，改用亮度微調讓文字可讀 */
             filter: brightness(0.95); 
         }
         
@@ -274,12 +273,12 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:30 - 11:30</span>
-                    [cite_start]<span class="activity">飛機抵達 KIX，入境、領行李。於機場購買 ICOCA 卡 [cite: 6]。</span>
+                    <span class="activity">飛機抵達 KIX，入境、領行李、過海關。於機場購買 ICOCA 卡。</span>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">11:30 - 12:40</span>
-                    [cite_start]<span class="activity">前往森之宮飯店 (JR 關空快速 → 大阪/京橋 → 環狀線) [cite: 9]。</span>
+                    <span class="activity">前往森之宮飯店 (JR 關空快速 → 大阪/京橋 → 環狀線)。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&origin=Kansai+International+Airport&destination=Morinomiya+Station&travelmode=transit" target="_blank" class="live-btn train">
                             🚃 導航：機場 → 森之宮
@@ -299,8 +298,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">13:30 - 16:00</span>
-                    [cite_start]<span class="activity">飯店走路進公園散步。若想進天守閣請預留 1.5 小時 [cite: 13]。</span>
-                    [cite_start]<div class="note">⚠️ 冬天公園空曠風大，請務必戴帽子與圍巾 [cite: 32]。</div>
+                    <span class="activity">飯店走路進公園散步。若想進天守閣請預留 1.5 小時。</span>
+                    <div class="note">⚠️ 冬天公園空曠風大，請務必戴帽子與圍巾。</div>
                 </div>
             </div>
         </div>
@@ -315,7 +314,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">16:30 - 16:45</span>
-                    [cite_start]<span class="activity">搭乘地鐵：森之宮 → 心齋橋 (長堀鶴見綠地線) [cite: 16]。</span>
+                    <span class="activity">搭乘地鐵：森之宮 → 心齋橋 (長堀鶴見綠地線)。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Shinsaibashi+Station&travelmode=transit" target="_blank" class="live-btn train">
                             🚇 導航：森之宮 → 心齋橋
@@ -325,8 +324,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">16:45 - 21:30</span>
-                    [cite_start]<span class="activity">心齋橋藥妝店、美國村古著。晚餐於道頓堀享用 [cite: 20]。</span>
-                    [cite_start]<div class="note">⚠️ 人潮擁擠，請將背包背在胸前防竊 [cite: 33]。</div>
+                    <span class="activity">心齋橋藥妝店、美國村古著。晚餐於道頓堀享用。</span>
+                    <div class="note">⚠️ 人潮擁擠，請將背包背在胸前防竊。</div>
                 </div>
             </div>
         </div>
@@ -343,7 +342,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:20 - 09:40</span>
-                    [cite_start]<span class="activity">前往梅田 (JR 大阪環狀線: 森之宮 → 大阪) [cite: 42]。</span>
+                    <span class="activity">前往梅田 (JR 大阪環狀線: 森之宮 → 大阪)。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Osaka+Station&travelmode=transit" target="_blank" class="live-btn train">
                             🚃 導航：森之宮 → 梅田
@@ -353,7 +352,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:40 - 12:00</span>
-                    [cite_start]<span class="activity">逛 Grand Front Osaka 或 Yodobashi Camera (3C/家電/扭蛋) [cite: 44]。</span>
+                    <span class="activity">逛 Grand Front Osaka 或 Yodobashi Camera (3C/家電/扭蛋)。</span>
                 </div>
             </div>
         </div>
@@ -368,7 +367,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">13:30 - 17:30</span>
-                    [cite_start]<span class="activity">午餐後繼續探索梅田。推薦 LUCUA 百貨 (年輕潮流) 或 Whity 地下街 [cite: 45]。</span>
+                    <span class="activity">午餐後繼續探索梅田。推薦 LUCUA 百貨 (年輕潮流) 或 Whity 地下街。</span>
                 </div>
             </div>
         </div>
@@ -383,13 +382,13 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">18:00 - 20:00</span>
-                    [cite_start]<span class="activity">欣賞 360 度夜景 [cite: 60]。</span>
+                    <span class="activity">欣賞 360 度夜景。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&origin=Osaka+Station&destination=Umeda+Sky+Building&travelmode=walking" target="_blank" class="live-btn walk">
                             🚶 導航：步行至空中庭園
                         </a>
                     </div>
-                    [cite_start]<div class="note">⚠️ 戶外展望層風大極冷，必備保暖衣物 [cite: 75]。</div>
+                    <div class="note">⚠️ 戶外展望層風大極冷，必備保暖衣物。</div>
                 </div>
             </div>
         </div>
@@ -406,7 +405,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">08:00 - 09:00</span>
-                    [cite_start]<span class="activity">前往伏見稻荷 (JR 環狀線至京橋 → 轉京阪本線) [cite: 83]。</span>
+                    <span class="activity">前往伏見稻荷 (JR 環狀線至京橋 → 轉京阪本線)。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Fushimi+Inari+Taisha&travelmode=transit" target="_blank" class="live-btn train">
                             🚃 導航：飯店 → 伏見稻荷
@@ -416,8 +415,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:00 - 11:30</span>
-                    [cite_start]<span class="activity">參拜千本鳥居。建議走到半山腰即可折返 [cite: 87]。</span>
-                    [cite_start]<div class="note">⚠️ 爬坡行程，請穿好走的鞋 [cite: 88]。</div>
+                    <span class="activity">參拜千本鳥居。建議走到半山腰即可折返。</span>
+                    <div class="note">⚠️ 爬坡行程，請穿好走的鞋。</div>
                 </div>
             </div>
         </div>
@@ -432,8 +431,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">13:00 - 15:30</span>
-                    [cite_start]<span class="activity">參觀清水舞台、音羽瀑布 [cite: 95][cite_start]。回程沿著二年坂、三年坂逛老街 [cite: 96]。</span>
-                    [cite_start]<div class="note">⚠️ 石板路面容易滑，行走請小心 [cite: 112]。</div>
+                    <span class="activity">參觀清水舞台、音羽瀑布。回程沿著二年坂、三年坂逛老街。</span>
+                    <div class="note">⚠️ 石板路面容易滑，行走請小心。</div>
                 </div>
             </div>
         </div>
@@ -448,12 +447,12 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">15:30 - 19:00</span>
-                    [cite_start]<span class="activity">參拜八坂神社，漫步花見小路 [cite: 97]。</span>
+                    <span class="activity">參拜八坂神社，漫步花見小路。</span>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">19:30 - 20:30</span>
-                    [cite_start]<span class="activity">返回大阪 (京阪本線特急至京橋 → 轉 JR 環狀線) [cite: 101]。</span>
+                    <span class="activity">返回大阪 (京阪本線特急至京橋 → 轉 JR 環狀線)。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&origin=Gion-Shijo+Station&destination=Morinomiya+Station&travelmode=transit" target="_blank" class="live-btn train">
                             🚃 導航：祇園 → 飯店
@@ -475,7 +474,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:00 - 09:30</span>
-                    [cite_start]<span class="activity">前往神戶三宮 (JR 神戶線新快速) [cite: 119]。</span>
+                    <span class="activity">前往神戶三宮 (JR 神戶線新快速)。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Sannomiya+Station&travelmode=transit" target="_blank" class="live-btn train">
                             🚃 導航：飯店 → 神戶三宮
@@ -485,8 +484,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:30 - 12:00</span>
-                    [cite_start]<span class="activity">北野異人館區散步，挑選 1-2 棟洋館參觀 [cite: 121]。</span>
-                    [cite_start]<div class="note">🚶 此區坡道多，步調請放慢 [cite: 150]。</div>
+                    <span class="activity">北野異人館區散步，挑選 1-2 棟洋館參觀。</span>
+                    <div class="note">🚶 此區坡道多，步調請放慢。</div>
                 </div>
             </div>
         </div>
@@ -501,7 +500,7 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">15:00 - 16:30</span>
-                    [cite_start]<span class="activity">南京町吃老祥記包子、小籠包等點心 [cite: 130]。</span>
+                    <span class="activity">南京町吃老祥記包子、小籠包等點心。</span>
                 </div>
             </div>
         </div>
@@ -516,8 +515,8 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">17:00 - 20:00</span>
-                    [cite_start]<span class="activity">Meriken Park 拍「BE KOBE」地標。晚餐於 Harborland MOSAIC 餐廳享用 [cite: 135]。</span>
-                    [cite_start]<div class="note">❄️ 港邊海風強勁，請務必戴圍巾帽子保暖 [cite: 152]。</div>
+                    <span class="activity">Meriken Park 拍「BE KOBE」地標。晚餐於 Harborland MOSAIC 餐廳享用。</span>
+                    <div class="note">❄️ 港邊海風強勁，請務必戴圍巾帽子保暖。</div>
                 </div>
             </div>
         </div>
@@ -534,12 +533,12 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:00 - 11:00</span>
-                    [cite_start]<span class="activity">最後補貨 (心齋橋藥妝 / 梅田電器) [cite: 160]。</span>
+                    <span class="activity">最後補貨 (心齋橋藥妝 / 梅田電器)。</span>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">11:30 - 12:30</span>
-                    [cite_start]<span class="activity">前往關西機場 (預抓飛機起飛前 2.5-3 小時抵達) [cite: 164]。</span>
+                    <span class="activity">前往關西機場 (預抓飛機起飛前 2.5-3 小時抵達)。</span>
                     <div class="btn-group">
                         <a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Kansai+International+Airport&travelmode=transit" target="_blank" class="live-btn train">
                             🚃 導航：飯店 → 關西機場
@@ -549,39 +548,35 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">12:30 - 15:00</span>
-                    [cite_start]<span class="activity">機場 Check-in、托運、逛免稅店、登機 [cite: 167]。</span>
-                    [cite_start]<div class="note">⚠️ 液體、膠狀物記得裝在透明袋或放入托運行李 [cite: 172]。</div>
+                    <span class="activity">機場 Check-in、托運、逛免稅店、登機。</span>
+                    <div class="note">⚠️ 液體、膠狀物記得裝在透明袋或放入托運行李。</div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 背景圖庫 (對應您上傳的檔案名稱)
+        // 背景圖庫
         const bgs = {
-            d1: "Day1.jpg", // 大阪城
-            d2: "Day2.jpg", // 梅田夜景
-            d3: "Day3.jpg", // 京都古塔
-            d4: "Day4.jpg", // 神戶港
-            d5: "Day5.jpg"  // 道頓堀
+            d1: "Day1.jpg",
+            d2: "Day2.jpg",
+            d3: "Day3.jpg",
+            d4: "Day4.jpg",
+            d5: "Day5.jpg"
         };
 
         function switchTab(dayId, theme) {
-            // 切換內容
             document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
             document.getElementById(dayId).classList.add('active');
             
-            // 切換按鈕
             document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
             const index = ['d1','d2','d3','d4','d5'].indexOf(dayId);
             if(document.querySelectorAll('.tab')[index]) {
                 document.querySelectorAll('.tab')[index].classList.add('active');
             }
             
-            // 設定主題屬性
             document.body.setAttribute('data-theme', theme);
 
-            // 切換背景圖 (淡入淡出)
             const bgLayer = document.getElementById('bg-layer');
             const newUrl = `url('${bgs[dayId]}')`;
             
@@ -605,8 +600,8 @@
             if (card.classList.contains('expanded')) {
                 if (!wrapper.classList.contains('loaded')) {
                     const encodedLoc = encodeURIComponent(locationName);
-                    // 使用 output=embed 參數
-                    wrapper.innerHTML = `<iframe class="map-frame" src="http://googleusercontent.com/maps.google.com/maps?q=${encodedLoc}&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>`;
+                    // 使用 Google Maps Embed API (不需 API Key 的基本模式)
+                    wrapper.innerHTML = `<iframe class="map-frame" src="https://maps.google.com/maps?q=${encodedLoc}&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>`;
                     
                     setTimeout(() => wrapper.classList.add('loaded'), 300);
                 }
