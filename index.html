@@ -19,28 +19,26 @@
         * { box-sizing: border-box; -webkit-user-select: none; user-select: none; }
         
         :root {
-            /* 禪風配色 (日本傳統色) */
-            --bg-color: #F4F1EA;        /* 生成色 (和紙底色) */
-            --text-main: #2B2B2B;       /* 墨色 */
-            --text-sub: #6E6B65;        /* 煤竹色 */
+            /* 禪風配色 */
+            --bg-color: #F4F1EA;
+            --text-main: #2B2B2B;
+            --text-sub: #6E6B65;
             
             /* 卡片風格 */
             --card-bg: rgba(255, 255, 255, 0.96);
             --card-border: #E0DCD5;
-            --header-bg: rgba(244, 241, 234, 0.92); /* 與背景融合 */
+            --header-bg: rgba(244, 241, 234, 0.92);
             --shadow: 0 4px 20px rgba(43, 43, 43, 0.06);
 
-            /* 主題強調色 (傳統色系) */
-            --accent-osaka: #B74B4B;    /* 茜色 (沉穩紅) */
-            --accent-kyoto: #6A4C9C;    /* 京紫 (優雅紫) */
-            --accent-kobe: #3E62AD;     /* 琉璃色 (深沈藍) */
+            /* 主題強調色 */
+            --accent-osaka: #B74B4B;
+            --accent-kyoto: #6A4C9C;
+            --accent-kobe: #3E62AD;
             
-            /* 輔助色 */
             --line-color: #D3D3D3;
         }
 
         body {
-            /* 字體設定：標題用宋體，內文用黑體 */
             font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
@@ -50,10 +48,10 @@
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
             overflow-x: hidden;
-            line-height: 1.7; /* 增加行高，增加呼吸感 */
+            line-height: 1.7;
         }
 
-        /* 背景圖片層 (降低飽和度以配合禪風) */
+        /* 背景圖片層 */
         #bg-layer {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -62,10 +60,10 @@
             background-repeat: no-repeat;
             z-index: -1;
             transition: opacity 0.6s ease-in-out;
-            filter: brightness(0.9) sepia(0.1); /* 微微泛黃復古感 */
+            filter: brightness(0.9) sepia(0.1);
         }
         
-        /* 頂部導航 - 簡約紙張感 */
+        /* 頂部導航 */
         .header {
             background: var(--header-bg);
             backdrop-filter: blur(15px);
@@ -86,21 +84,21 @@
         }
 
         .title-bar {
-            font-family: 'Noto Serif JP', serif; /* 宋體標題 */
+            font-family: 'Noto Serif JP', serif;
             font-weight: 700;
             font-size: 22px;
             color: var(--text-main);
-            letter-spacing: 0.1em; /* 增加字距 */
+            letter-spacing: 0.1em;
         }
 
-        /* 天氣小卡 - 印章/標籤風格 */
+        /* 天氣小卡 */
         .weather-badge {
             display: flex;
             align-items: center;
             gap: 8px;
             background: #fff;
             padding: 6px 14px;
-            border-radius: 4px; /* 方正一點的圓角 */
+            border-radius: 4px;
             font-size: 12px;
             font-weight: 500;
             color: var(--text-sub);
@@ -120,7 +118,6 @@
         }
         .tabs::-webkit-scrollbar { display: none; }
 
-        /* Tab 按鈕 - 傳統書籤風格 */
         .tab {
             flex: 0 0 auto;
             padding: 6px 0;
@@ -135,7 +132,6 @@
             letter-spacing: 0.05em;
         }
         
-        /* Tab 選中效果：底部線條 */
         .tab::after {
             content: '';
             position: absolute;
@@ -148,13 +144,10 @@
             transition: width 0.3s ease;
         }
 
-        /* 動態主題色按鈕 */
         body[data-theme="osaka"] .tab.active { color: var(--accent-osaka); }
         body[data-theme="osaka"] .tab.active::after { width: 100%; background-color: var(--accent-osaka); }
-        
         body[data-theme="kyoto"] .tab.active { color: var(--accent-kyoto); }
         body[data-theme="kyoto"] .tab.active::after { width: 100%; background-color: var(--accent-kyoto); }
-        
         body[data-theme="kobe"] .tab.active { color: var(--accent-kobe); }
         body[data-theme="kobe"] .tab.active::after { width: 100%; background-color: var(--accent-kobe); }
 
@@ -180,10 +173,10 @@
         .slide-left { animation-name: slideInRight; }
         .slide-right { animation-name: slideInLeft; }
 
-        /* 卡片樣式 - 和紙質感 */
+        /* 卡片樣式 */
         .card {
             background: var(--card-bg);
-            border-radius: 8px; /* 較小的圓角，更像紙張 */
+            border-radius: 8px;
             margin-bottom: 24px;
             border: 1px solid var(--card-border);
             overflow: hidden;
@@ -192,7 +185,6 @@
             position: relative;
         }
         
-        /* 裝飾線 (左側強調色線條) */
         .card::before {
             content: '';
             position: absolute;
@@ -236,7 +228,7 @@
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             font-size: 18px;
-            background: #F4F1EA; /* 與背景同色 */
+            background: #F4F1EA;
             border: 1px solid #E0DCD5;
             color: #555;
         }
@@ -254,9 +246,9 @@
         .map-frame { width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity 0.5s; position: relative; z-index: 2; }
         .map-wrapper.loaded .map-frame { opacity: 1; }
 
-        /* 時間軸 - 禪風細線 */
+        /* 時間軸 */
         .details { padding: 15px 24px 30px 24px; }
-        .timeline-item { position: relative; padding-left: 32px; margin-top: 30px; border-left: 1px solid var(--line-color); } /* 更細的線 */
+        .timeline-item { position: relative; padding-left: 32px; margin-top: 30px; border-left: 1px solid var(--line-color); }
         .timeline-item:last-child { border-left-color: transparent; }
         
         .timeline-dot {
@@ -264,7 +256,7 @@
             width: 11px; height: 11px;
             border-radius: 50%;
             background: #fff;
-            border: 2px solid var(--line-color); /* 空心圓點 */
+            border: 2px solid var(--line-color);
             z-index: 1;
             transition: border-color 0.3s;
         }
@@ -294,14 +286,14 @@
         .activity strong { 
             font-weight: 600; 
             color: #000; 
-            border-bottom: 1px dotted #999; /* 強調文字下方加虛線 */
+            border-bottom: 1px dotted #999; 
         }
 
-        /* 按鈕 - 樸實風格 */
+        /* 按鈕 */
         .btn-group { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 12px; }
         .live-btn {
             display: inline-flex; align-items: center; gap: 8px;
-            padding: 8px 18px; border-radius: 4px; /* 方角 */
+            padding: 8px 18px; border-radius: 4px;
             font-size: 13px; font-weight: 500; text-decoration: none;
             transition: 0.2s; background: #F9F9F9;
             border: 1px solid #DDD; color: var(--text-sub);
@@ -312,7 +304,6 @@
         .live-btn.train { border-color: rgba(62, 98, 173, 0.3); color: #3E62AD; background: rgba(62, 98, 173, 0.05); }
         .live-btn.walk { border-color: rgba(100, 140, 80, 0.3); color: #648C50; background: rgba(100, 140, 80, 0.05); }
 
-        /* 提示框 - 傳統信箋風格 */
         .note {
             margin-top: 18px; 
             font-size: 13px; 
@@ -326,12 +317,12 @@
             gap: 10px;
         }
 
-        /* === 懸浮工具箱樣式 === */
+        /* === 懸浮工具箱 === */
         .fab-container {
             position: fixed; bottom: 35px; right: 25px; z-index: 200;
         }
         .fab-btn {
-            width: 52px; height: 52px; border-radius: 12px; /* 稍微方一點 */
+            width: 52px; height: 52px; border-radius: 12px;
             background: #333; color: #F4F1EA;
             border: 1px solid #555; 
             box-shadow: 0 6px 20px rgba(0,0,0,0.25);
@@ -344,7 +335,7 @@
         /* 模態視窗 */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(40, 40, 40, 0.6); z-index: 300; /* 背景深色一點 */
+            background: rgba(40, 40, 40, 0.6); z-index: 300;
             display: none; align-items: center; justify-content: center;
             backdrop-filter: blur(4px);
         }
@@ -352,7 +343,7 @@
         
         .modal-card {
             width: 88%; max-width: 320px;
-            background: #FDFBF7; /* 純紙色 */
+            background: #FDFBF7;
             border-radius: 8px;
             padding: 28px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
@@ -391,7 +382,7 @@
         .p-jp { display: block; font-family: 'Noto Serif JP', serif; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 4px; }
         .p-zh { display: block; font-size: 11px; color: #888; }
 
-        /* 地鐵圖 */
+        /* 按鈕共用樣式 (地鐵圖 + 相機) */
         .map-link-btn {
             display: block; width: 100%; padding: 14px;
             background: #5D7259; /* 竹青色 */
@@ -403,6 +394,9 @@
             transition: background 0.2s;
         }
         .map-link-btn:active { background: #4B5E48; }
+        
+        .cam-btn { background: #4A4F55; margin-top: 8px; } /* 墨灰 */
+        .cam-btn:active { background: #2F3439; }
 
         @keyframes fadeIn { from{opacity:0; transform: translateY(10px);} to{opacity:1; transform: translateY(0);} }
         
@@ -733,6 +727,13 @@
                     路線図を見る
                 </a>
             </div>
+
+            <div class="tool-section">
+                <div class="tool-title">📷 カメラ翻訳</div>
+                <a href="https://translate.google.com/?sl=ja&tl=zh-TW&op=images" target="_blank" class="map-link-btn cam-btn">
+                    カメラ翻訳を起動
+                </a>
+            </div>
         </div>
     </div>
 
@@ -822,7 +823,7 @@
                 if (!wrap.classList.contains('loaded')) {
                     const enc = encodeURIComponent(loc);
                     // 使用標準 Google Maps 嵌入網址
-                    wrap.innerHTML = `<iframe class="map-frame" src="https://maps.google.com/maps?q=${enc}&t=m&z=15&output=embed&iwloc=near" frameborder="0"></iframe>`;
+                    wrap.innerHTML = `<iframe class="map-frame" src="http://googleusercontent.com/maps.google.com/maps?q=${enc}&t=m&z=15&output=embed&iwloc=near" frameborder="0"></iframe>`;
                     setTimeout(() => wrap.classList.add('loaded'), 300);
                 }
                 wrap.style.height = "250px";
