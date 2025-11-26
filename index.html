@@ -17,8 +17,6 @@
             --text-main: #1C1C1E;
             --text-sub: #636366;
             --bg-color: #F2F2F7;
-            
-            /* 毛玻璃卡片 */
             --card-bg: rgba(255, 255, 255, 0.90);
             --card-border: rgba(255, 255, 255, 0.6);
             --header-bg: rgba(255, 255, 255, 0.85);
@@ -36,7 +34,7 @@
             color: var(--text-main);
             margin: 0;
             padding: 0;
-            padding-bottom: 80px;
+            padding-bottom: 100px; /* 增加底部留白給懸浮按鈕 */
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
         }
@@ -50,7 +48,6 @@
             background-repeat: no-repeat;
             z-index: -1;
             transition: opacity 0.5s ease-in-out;
-            /* 輕微調暗以突顯白色卡片，不模糊 */
             filter: brightness(0.95); 
         }
         
@@ -82,7 +79,7 @@
             letter-spacing: -0.5px;
         }
 
-        /* 天氣小卡樣式 */
+        /* 天氣小卡 */
         .weather-badge {
             display: flex;
             align-items: center;
@@ -97,11 +94,6 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.03);
             transition: all 0.3s ease;
         }
-        
-        .weather-icon { font-size: 16px; }
-        .weather-temp { font-family: "SF Pro Display", sans-serif; }
-        
-        /* 載入中動畫 */
         .weather-badge.loading { opacity: 0.7; }
         
         .tabs {
@@ -122,7 +114,7 @@
             font-weight: 600;
             color: var(--text-sub);
             border: none;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.3s;
         }
 
         /* 動態主題色按鈕 */
@@ -187,7 +179,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
-        .toggle-icon { color: #C7C7CC; font-size: 12px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .toggle-icon { color: #C7C7CC; font-size: 12px; transition: transform 0.4s; }
         .card.expanded .toggle-icon { transform: rotate(180deg); color: var(--text-main); }
 
         /* 地圖區 */
@@ -207,17 +199,8 @@
 
         /* 時間軸與細節 */
         .details { padding: 10px 24px 28px 24px; }
-        
-        .timeline-item {
-            position: relative;
-            padding-left: 28px;
-            margin-top: 24px;
-            border-left: 2px solid rgba(0,0,0,0.06);
-        }
-        
-        /* 最後一個項目不顯示線條尾巴 */
+        .timeline-item { position: relative; padding-left: 28px; margin-top: 24px; border-left: 2px solid rgba(0,0,0,0.06); }
         .timeline-item:last-child { border-left-color: transparent; }
-
         .timeline-dot {
             position: absolute; left: -7px; top: 0;
             width: 12px; height: 12px;
@@ -226,65 +209,99 @@
             box-shadow: 0 0 0 4px rgba(255,255,255,0.8);
             z-index: 1;
         }
-        
-        /* 依主題變色 */
         body[data-theme="osaka"] .timeline-dot { background: var(--accent-osaka); }
         body[data-theme="kyoto"] .timeline-dot { background: var(--accent-kyoto); }
         body[data-theme="kobe"] .timeline-dot { background: var(--accent-kobe); }
 
-        .time {
-            font-size: 13px; font-weight: 700;
-            margin-bottom: 6px; display: block;
-            letter-spacing: 0.5px;
-        }
-
+        .time { font-size: 13px; font-weight: 700; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
         body[data-theme="osaka"] .time { color: var(--accent-osaka); }
         body[data-theme="kyoto"] .time { color: var(--accent-kyoto); }
         body[data-theme="kobe"] .time { color: var(--accent-kobe); }
 
         .activity { font-size: 15px; line-height: 1.6; color: var(--text-main); }
-
-        /* 功能按鈕 */
-        .btn-group {
-            margin-top: 14px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
+        .btn-group { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; }
         .live-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            border-radius: 18px;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: 0.2s;
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            border: 1px solid rgba(0,0,0,0.02);
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 16px; border-radius: 18px;
+            font-size: 13px; font-weight: 600; text-decoration: none;
+            transition: 0.2s; background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.02);
         }
-        
         .live-btn:active { transform: scale(0.96); background: #f5f5f5; }
-
-        /* 交通按鈕樣式 */
         .live-btn.train { color: #007AFF; }
         .live-btn.walk { color: #34C759; }
 
         .note {
-            margin-top: 14px;
-            font-size: 13px;
-            color: #856404;
-            background: #FFF8E1;
-            padding: 14px;
-            border-radius: 16px;
-            line-height: 1.5;
-            display: flex;
-            align-items: start;
-            gap: 8px;
+            margin-top: 14px; font-size: 13px; color: #856404; background: #FFF8E1;
+            padding: 14px; border-radius: 16px; line-height: 1.5; display: flex; gap: 8px;
         }
+
+        /* === 懸浮工具箱樣式 === */
+        .fab-container {
+            position: fixed; bottom: 30px; right: 20px; z-index: 200;
+        }
+        .fab-btn {
+            width: 56px; height: 56px; border-radius: 28px;
+            background: #2c3e50; color: white;
+            border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 24px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s;
+        }
+        .fab-btn:active { transform: scale(0.9); }
+
+        /* 模態視窗 (Modal) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 300;
+            display: none; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-overlay.open { display: flex; animation: fadeIn 0.2s; }
+        
+        .modal-card {
+            width: 85%; max-width: 320px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-title { font-size: 18px; font-weight: 800; color: #333; }
+        .close-btn { background: none; border: none; font-size: 24px; color: #999; cursor: pointer; }
+
+        /* 工具區塊 */
+        .tool-section { margin-bottom: 20px; }
+        .tool-title { font-size: 13px; font-weight: 700; color: #666; margin-bottom: 10px; letter-spacing: 1px; }
+        
+        /* 匯率計算機 */
+        .calc-box { display: flex; gap: 10px; align-items: center; background: #f0f2f5; padding: 10px; border-radius: 12px; }
+        .calc-input { width: 100px; border: none; background: transparent; font-size: 18px; font-weight: bold; color: #333; text-align: right; outline: none; }
+        .calc-label { font-size: 14px; font-weight: 600; color: #666; }
+        .calc-result { font-size: 18px; font-weight: bold; color: #007AFF; margin-left: auto; }
+
+        /* 日語小卡 */
+        .phrase-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .phrase-btn {
+            background: #fff; border: 1px solid #eee; border-radius: 12px;
+            padding: 10px; text-align: center; cursor: pointer;
+            transition: 0.2s;
+        }
+        .phrase-btn:active { background: #f0f8ff; border-color: #007AFF; }
+        .p-jp { display: block; font-size: 14px; font-weight: 700; color: #333; margin-bottom: 2px; }
+        .p-zh { display: block; font-size: 11px; color: #888; }
+
+        /* 地鐵圖按鈕 */
+        .map-link-btn {
+            display: block; width: 100%; padding: 12px;
+            background: #28C76F; color: white;
+            text-align: center; text-decoration: none;
+            border-radius: 12px; font-weight: 700; font-size: 14px;
+        }
+
+        @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
         
     </style>
 </head>
@@ -320,410 +337,217 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">09:30 - 11:30</span>
-                    <span class="activity">飛機抵達 KIX，入境、領行李、過海關。於機場購買 ICOCA 卡。</span>
+                    <span class="activity">飛機抵達 KIX。於機場購買 ICOCA 卡。</span>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="time">11:30 - 12:40</span>
-                    <span class="activity">前往森之宮飯店 (JR 關空快速 → 大阪/京橋 → 環狀線)。</span>
+                    <span class="activity">前往森之宮飯店。</span>
                     <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Kansai+International+Airport&destination=Morinomiya+Station&travelmode=transit" target="_blank" class="live-btn train">
-                            🚃 導航：機場 → 森之宮
-                        </a>
+                        <a href="https://www.google.com/maps/dir/?api=1&origin=Kansai+International+Airport&destination=Morinomiya+Station&travelmode=transit" target="_blank" class="live-btn train">🚃 導航：機場 → 森之宮</a>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="card" onclick="toggleMap(this, 'Osaka Castle Park')">
-            <div class="card-header">
-                <h3><div class="icon-box">🏯</div> 大阪城公園</h3>
-                <span class="toggle-icon">▼</span>
-            </div>
+            <div class="card-header"><h3><div class="icon-box">🏯</div> 大阪城公園</h3><span class="toggle-icon">▼</span></div>
             <div class="map-wrapper"></div>
             <div class="details">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">13:30 - 16:00</span>
-                    <span class="activity">飯店走路進公園散步。若想進天守閣請預留 1.5 小時。</span>
-                    <div class="note">⚠️ 冬天公園空曠風大，請務必戴帽子與圍巾。</div>
-                </div>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="time">13:30 - 16:00</span><span class="activity">公園散步。</span></div>
+                <div class="note">⚠️ 冬天風大請戴帽子。</div>
             </div>
         </div>
-
         <div class="card" onclick="toggleMap(this, 'Shinsaibashi-Suji Shopping Street')">
-            <div class="card-header">
-                <h3><div class="icon-box">🛍️</div> 心齋橋 & 道頓堀</h3>
-                <span class="toggle-icon">▼</span>
-            </div>
+            <div class="card-header"><h3><div class="icon-box">🛍️</div> 心齋橋 & 道頓堀</h3><span class="toggle-icon">▼</span></div>
             <div class="map-wrapper"></div>
             <div class="details">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">16:30 - 16:45</span>
-                    <span class="activity">搭乘地鐵：森之宮 → 心齋橋 (長堀鶴見綠地線)。</span>
-                    <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Shinsaibashi+Station&travelmode=transit" target="_blank" class="live-btn train">
-                            🚇 導航：森之宮 → 心齋橋
-                        </a>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">16:45 - 21:30</span>
-                    <span class="activity">心齋橋藥妝店、美國村古著。晚餐於道頓堀享用。</span>
-                    <div class="note">⚠️ 人潮擁擠，請將背包背在胸前防竊。</div>
-                </div>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="time">16:30 - 21:30</span><span class="activity">逛街購物、晚餐。</span><div class="btn-group"><a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Shinsaibashi+Station&travelmode=transit" target="_blank" class="live-btn train">🚇 導航：森之宮 → 心齋橋</a></div></div>
             </div>
         </div>
     </div>
 
     <div id="d2" class="content">
         <div class="card" onclick="toggleMap(this, 'Osaka Station')">
-            <div class="card-header">
-                <h3><div class="icon-box">🏙️</div> 梅田商圈 (上午)</h3>
-                <span class="toggle-icon">▼</span>
-            </div>
+            <div class="card-header"><h3><div class="icon-box">🏙️</div> 梅田商圈 (上午)</h3><span class="toggle-icon">▼</span></div>
             <div class="map-wrapper"></div>
             <div class="details">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">09:20 - 09:40</span>
-                    <span class="activity">前往梅田 (JR 大阪環狀線: 森之宮 → 大阪)。</span>
-                    <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Osaka+Station&travelmode=transit" target="_blank" class="live-btn train">
-                            🚃 導航：森之宮 → 梅田
-                        </a>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">09:40 - 12:00</span>
-                    <span class="activity">逛 Grand Front Osaka 或 Yodobashi Camera (3C/家電/扭蛋)。</span>
-                </div>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="time">09:20 - 12:00</span><span class="activity">前往梅田逛街。</span><div class="btn-group"><a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Osaka+Station&travelmode=transit" target="_blank" class="live-btn train">🚃 導航：森之宮 → 梅田</a></div></div>
             </div>
         </div>
-
-        <div class="card" onclick="toggleMap(this, 'LUCUA osaka')">
-            <div class="card-header">
-                <h3><div class="icon-box">☕</div> 梅田深度遊 (下午)</h3>
-                <span class="toggle-icon">▼</span>
-            </div>
-            <div class="map-wrapper"></div>
-            <div class="details">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">13:30 - 17:30</span>
-                    <span class="activity">午餐後繼續探索梅田。推薦 LUCUA 百貨 (年輕潮流) 或 Whity 地下街。</span>
-                </div>
-            </div>
-        </div>
-
         <div class="card" onclick="toggleMap(this, 'Umeda Sky Building')">
-            <div class="card-header">
-                <h3><div class="icon-box">🌃</div> 梅田空中庭園</h3>
-                <span class="toggle-icon">▼</span>
-            </div>
+            <div class="card-header"><h3><div class="icon-box">🌃</div> 梅田空中庭園</h3><span class="toggle-icon">▼</span></div>
             <div class="map-wrapper"></div>
             <div class="details">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">18:00 - 20:00</span>
-                    <span class="activity">欣賞 360 度夜景。</span>
-                    <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Osaka+Station&destination=Umeda+Sky+Building&travelmode=walking" target="_blank" class="live-btn walk">
-                            🚶 導航：步行至空中庭園
-                        </a>
-                    </div>
-                    <div class="note">⚠️ 戶外展望層風大極冷，必備保暖衣物。</div>
-                </div>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="time">18:00 - 20:00</span><span class="activity">看夜景。</span><div class="btn-group"><a href="https://www.google.com/maps/dir/?api=1&origin=Osaka+Station&destination=Umeda+Sky+Building&travelmode=walking" target="_blank" class="live-btn walk">🚶 步行導航</a></div></div>
             </div>
         </div>
     </div>
 
     <div id="d3" class="content">
         <div class="card" onclick="toggleMap(this, 'Fushimi Inari Taisha')">
-            <div class="card-header">
-                <h3><div class="icon-box">⛩️</div> 伏見稻荷大社</h3>
-                <span class="toggle-icon">▼</span>
-            </div>
+            <div class="card-header"><h3><div class="icon-box">⛩️</div> 伏見稻荷大社</h3><span class="toggle-icon">▼</span></div>
             <div class="map-wrapper"></div>
             <div class="details">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">08:00 - 09:00</span>
-                    <span class="activity">前往伏見稻荷 (JR 環狀線至京橋 → 轉京阪本線)。</span>
-                    <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Fushimi+Inari+Taisha&travelmode=transit" target="_blank" class="live-btn train">
-                            🚃 導航：飯店 → 伏見稻荷
-                        </a>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">09:00 - 11:30</span>
-                    <span class="activity">參拜千本鳥居。建議走到半山腰即可折返。</span>
-                    <div class="note">⚠️ 爬坡行程，請穿好走的鞋。</div>
-                </div>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="time">09:00 - 11:30</span><span class="activity">千本鳥居。</span><div class="btn-group"><a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Fushimi+Inari+Taisha&travelmode=transit" target="_blank" class="live-btn train">🚃 導航：飯店 → 伏見稻荷</a></div></div>
             </div>
         </div>
-
         <div class="card" onclick="toggleMap(this, 'Kiyomizu-dera')">
-            <div class="card-header">
-                <h3><div class="icon-box">👘</div> 清水寺 & 二三年坂</h3>
-                <span class="toggle-icon">▼</span>
-            </div>
+            <div class="card-header"><h3><div class="icon-box">👘</div> 清水寺 & 二三年坂</h3><span class="toggle-icon">▼</span></div>
             <div class="map-wrapper"></div>
             <div class="details">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">13:00 - 15:30</span>
-                    <span class="activity">參觀清水舞台、音羽瀑布。回程沿著二年坂、三年坂逛老街。</span>
-                    <div class="note">⚠️ 石板路面容易滑，行走請小心。</div>
-                </div>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="time">13:00 - 15:30</span><span class="activity">清水舞台、老街。</span></div>
             </div>
         </div>
-
         <div class="card" onclick="toggleMap(this, 'Gion District')">
-            <div class="card-header">
-                <h3><div class="icon-box">🏮</div> 祇園 & 八坂神社</h3>
-                <span class="toggle-icon">▼</span>
-            </div>
+            <div class="card-header"><h3><div class="icon-box">🏮</div> 祇園</h3><span class="toggle-icon">▼</span></div>
             <div class="map-wrapper"></div>
             <div class="details">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">15:30 - 19:00</span>
-                    <span class="activity">參拜八坂神社，漫步花見小路。</span>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">19:30 - 20:30</span>
-                    <span class="activity">返回大阪 (京阪本線特急至京橋 → 轉 JR 環狀線)。</span>
-                    <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Gion-Shijo+Station&destination=Morinomiya+Station&travelmode=transit" target="_blank" class="live-btn train">
-                            🚃 導航：祇園 → 飯店
-                        </a>
-                    </div>
-                </div>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="time">19:30</span><span class="activity">返回大阪。</span><div class="btn-group"><a href="https://www.google.com/maps/dir/?api=1&origin=Gion-Shijo+Station&destination=Morinomiya+Station&travelmode=transit" target="_blank" class="live-btn train">🚃 導航：祇園 → 飯店</a></div></div>
             </div>
         </div>
     </div>
 
     <div id="d4" class="content">
         <div class="card" onclick="toggleMap(this, 'Kobe Kitano Ijinkan-Gai')">
-            <div class="card-header">
-                <h3><div class="icon-box">⚓</div> 北野異人館</h3>
-                <span class="toggle-icon">▼</span>
-            </div>
+            <div class="card-header"><h3><div class="icon-box">⚓</div> 北野異人館</h3><span class="toggle-icon">▼</span></div>
             <div class="map-wrapper"></div>
             <div class="details">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">09:00 - 09:30</span>
-                    <span class="activity">前往神戶三宮 (JR 神戶線新快速)。</span>
-                    <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Sannomiya+Station&travelmode=transit" target="_blank" class="live-btn train">
-                            🚃 導航：飯店 → 神戶三宮
-                        </a>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">09:30 - 12:00</span>
-                    <span class="activity">北野異人館區散步，挑選 1-2 棟洋館參觀。</span>
-                    <div class="note">🚶 此區坡道多，步調請放慢。</div>
-                </div>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="time">09:30 - 12:00</span><span class="activity">洋館散步。</span><div class="btn-group"><a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Sannomiya+Station&travelmode=transit" target="_blank" class="live-btn train">🚃 導航：飯店 → 神戶三宮</a></div></div>
             </div>
         </div>
-
         <div class="card" onclick="toggleMap(this, 'Nankinmachi')">
-            <div class="card-header">
-                <h3><div class="icon-box">🥟</div> 南京町 (中華街)</h3>
-                <span class="toggle-icon">▼</span>
-            </div>
+            <div class="card-header"><h3><div class="icon-box">🥟</div> 南京町</h3><span class="toggle-icon">▼</span></div>
             <div class="map-wrapper"></div>
-            <div class="details">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">15:00 - 16:30</span>
-                    <span class="activity">南京町吃老祥記包子、小籠包等點心。</span>
-                </div>
-            </div>
+            <div class="details"><div class="timeline-item"><div class="timeline-dot"></div><span class="time">15:00</span><span class="activity">中華街點心。</span></div></div>
         </div>
-
         <div class="card" onclick="toggleMap(this, 'Meriken Park')">
-            <div class="card-header">
-                <h3><div class="icon-box">🚢</div> 神戶港夜景</h3>
-                <span class="toggle-icon">▼</span>
-            </div>
+            <div class="card-header"><h3><div class="icon-box">🚢</div> 神戶港夜景</h3><span class="toggle-icon">▼</span></div>
             <div class="map-wrapper"></div>
-            <div class="details">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">17:00 - 20:00</span>
-                    <span class="activity">Meriken Park 拍「BE KOBE」地標。晚餐於 Harborland MOSAIC 餐廳享用。</span>
-                    <div class="note">❄️ 港邊海風強勁，請務必戴圍巾帽子保暖。</div>
-                </div>
-            </div>
+            <div class="details"><div class="timeline-item"><div class="timeline-dot"></div><span class="time">17:00</span><span class="activity">BE KOBE 地標。</span></div></div>
         </div>
     </div>
 
     <div id="d5" class="content">
         <div class="card" onclick="toggleMap(this, 'Kansai International Airport')">
-            <div class="card-header">
-                <h3><div class="icon-box">🛫</div> 機場回程</h3>
-                <span class="toggle-icon">▼</span>
-            </div>
+            <div class="card-header"><h3><div class="icon-box">🛫</div> 機場回程</h3><span class="toggle-icon">▼</span></div>
             <div class="map-wrapper"></div>
             <div class="details">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">09:00 - 11:00</span>
-                    <span class="activity">最後補貨 (心齋橋藥妝 / 梅田電器)。</span>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="time">11:30</span><span class="activity">前往機場。</span><div class="btn-group"><a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Kansai+International+Airport&travelmode=transit" target="_blank" class="live-btn train">🚃 導航：飯店 → 機場</a></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fab-container">
+        <button class="fab-btn" onclick="toggleModal()">🧰</button>
+    </div>
+
+    <div class="modal-overlay" id="toolsModal" onclick="closeModalOnBg(event)">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">旅遊小工具</div>
+                <button class="close-btn" onclick="toggleModal()">×</button>
+            </div>
+
+            <div class="tool-section">
+                <div class="tool-title">💴 匯率試算 (約 0.22)</div>
+                <div class="calc-box">
+                    <input type="number" id="yenInput" class="calc-input" placeholder="日幣" oninput="calcRate()">
+                    <span class="calc-label">円 ≈ </span>
+                    <span class="calc-result" id="twdResult">0</span>
+                    <span class="calc-label">台幣</span>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">11:30 - 12:30</span>
-                    <span class="activity">前往關西機場 (預抓飛機起飛前 2.5-3 小時抵達)。</span>
-                    <div class="btn-group">
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=Morinomiya+Station&destination=Kansai+International+Airport&travelmode=transit" target="_blank" class="live-btn train">
-                            🚃 導航：飯店 → 關西機場
-                        </a>
-                    </div>
+            </div>
+
+            <div class="tool-section">
+                <div class="tool-title">🗣️ 生存日語 (點擊)</div>
+                <div class="phrase-list">
+                    <div class="phrase-btn" onclick="speak('Sumimasen')"><span class="p-jp">すみません</span><span class="p-zh">不好意思</span></div>
+                    <div class="phrase-btn" onclick="speak('Arigatou gozaimasu')"><span class="p-jp">ありがとうございます</span><span class="p-zh">謝謝</span></div>
+                    <div class="phrase-btn" onclick="speak('Kore o kudasai')"><span class="p-jp">これをください</span><span class="p-zh">我要這個</span></div>
+                    <div class="phrase-btn" onclick="speak('Okaikei onegaishimasu')"><span class="p-jp">お会計お願いします</span><span class="p-zh">請結帳</span></div>
+                    <div class="phrase-btn" onclick="speak('Toire wa doko desu ka')"><span class="p-jp">トイレはどこですか</span><span class="p-zh">廁所在哪</span></div>
+                    <div class="phrase-btn" onclick="speak('Eigo menyu wa arimasu ka')"><span class="p-jp">英語メニュー...</span><span class="p-zh">有英文菜單嗎</span></div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="time">12:30 - 15:00</span>
-                    <span class="activity">機場 Check-in、托運、逛免稅店、登機。</span>
-                    <div class="note">⚠️ 液體、膠狀物記得裝在透明袋或放入托運行李。</div>
-                </div>
+            </div>
+
+            <div class="tool-section">
+                <div class="tool-title">🗺️ 實用連結</div>
+                <a href="https://subway.osakametro.co.jp/cn/img/osakametro_rosenzu_cn_20240323.pdf" target="_blank" class="map-link-btn">
+                    📄 開啟大阪地鐵圖 (PDF)
+                </a>
             </div>
         </div>
     </div>
 
     <script>
-        // 背景圖庫
-        const bgs = {
-            d1: "Day1.jpg",
-            d2: "Day2.jpg",
-            d3: "Day3.jpg",
-            d4: "Day4.jpg",
-            d5: "Day5.jpg"
-        };
-        
-        // 城市座標 (用於 Open-Meteo API)
-        const coords = {
-            osaka: { lat: 34.6937, lon: 135.5023, name: "大阪" },
-            kyoto: { lat: 35.0116, lon: 135.7681, name: "京都" },
-            kobe:  { lat: 34.6901, lon: 135.1955, name: "神戶" }
-        };
+        const bgs = { d1: "Day1.jpg", d2: "Day2.jpg", d3: "Day3.jpg", d4: "Day4.jpg", d5: "Day5.jpg" };
+        const coords = { osaka: { lat: 34.6937, lon: 135.5023, name: "大阪" }, kyoto: { lat: 35.0116, lon: 135.7681, name: "京都" }, kobe: { lat: 34.6901, lon: 135.1955, name: "神戶" } };
+        const weatherCodes = { 0: { icon: '☀️', text: '晴朗' }, 1: { icon: '🌤️', text: '多雲' }, 2: { icon: '☁️', text: '陰天' }, 3: { icon: '☁️', text: '陰天' }, 51: { icon: '🌧️', text: '小雨' }, 61: { icon: '🌧️', text: '下雨' }, 80: { icon: '🌦️', text: '陣雨' }, 95: { icon: '⛈️', text: '雷雨' } };
 
-        // 天氣代碼對照表
-        const weatherCodes = {
-            0: { icon: '☀️', text: '晴朗' },
-            1: { icon: '🌤️', text: '多雲' },
-            2: { icon: '☁️', text: '陰天' },
-            3: { icon: '☁️', text: '陰天' },
-            45: { icon: '🌫️', text: '有霧' },
-            51: { icon: '🌧️', text: '毛毛雨' },
-            53: { icon: '🌧️', text: '小雨' },
-            55: { icon: '🌧️', text: '降雨' },
-            61: { icon: '🌧️', text: '小雨' },
-            63: { icon: '🌧️', text: '下雨' },
-            65: { icon: '🌧️', text: '大雨' },
-            80: { icon: '🌦️', text: '陣雨' },
-            95: { icon: '⛈️', text: '雷雨' }
-        };
-
-        // 獲取天氣函數
         async function fetchWeather(cityKey) {
-            const widget = document.getElementById('weather-widget');
-            const iconEl = document.getElementById('weather-icon');
             const tempEl = document.getElementById('weather-temp');
-            
-            // 顯示載入中
-            widget.classList.add('loading');
-            tempEl.innerText = `${coords[cityKey].name} 載入中...`;
-            
+            const iconEl = document.getElementById('weather-icon');
             try {
                 const { lat, lon } = coords[cityKey];
-                const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=Asia%2FTokyo`);
-                const data = await response.json();
-                
-                const weather = data.current_weather;
-                const code = weather.weathercode;
-                const temp = Math.round(weather.temperature);
-                
-                // 更新 UI
-                const wInfo = weatherCodes[code] || { icon: '🌡️', text: '未知' };
-                iconEl.innerText = wInfo.icon;
-                tempEl.innerText = `${coords[cityKey].name} ${temp}°C ${wInfo.text}`;
-                
-            } catch (error) {
-                console.error("Weather fetch failed", error);
-                tempEl.innerText = "天氣資訊無法取得";
-            } finally {
-                widget.classList.remove('loading');
-            }
+                const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=Asia%2FTokyo`);
+                const data = await res.json();
+                const code = data.current_weather.weathercode;
+                const info = weatherCodes[code] || { icon: '🌡️', text: '' };
+                iconEl.innerText = info.icon;
+                tempEl.innerText = `${coords[cityKey].name} ${Math.round(data.current_weather.temperature)}°C`;
+            } catch (e) { tempEl.innerText = "天氣載入失敗"; }
         }
 
         function switchTab(dayId, theme) {
             document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
             document.getElementById(dayId).classList.add('active');
-            
             document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-            const index = ['d1','d2','d3','d4','d5'].indexOf(dayId);
-            if(document.querySelectorAll('.tab')[index]) {
-                document.querySelectorAll('.tab')[index].classList.add('active');
-            }
-            
+            const idx = ['d1','d2','d3','d4','d5'].indexOf(dayId);
+            if(document.querySelectorAll('.tab')[idx]) document.querySelectorAll('.tab')[idx].classList.add('active');
             document.body.setAttribute('data-theme', theme);
-
-            const bgLayer = document.getElementById('bg-layer');
-            const newUrl = `url('${bgs[dayId]}')`;
-            
-            if (bgLayer.style.backgroundImage !== newUrl) {
-                bgLayer.style.opacity = 0;
-                setTimeout(() => {
-                    bgLayer.style.backgroundImage = newUrl;
-                    bgLayer.style.opacity = 1;
-                }, 300);
+            const bg = document.getElementById('bg-layer');
+            if (bg.style.backgroundImage !== `url('${bgs[dayId]}')`) {
+                bg.style.opacity = 0; setTimeout(() => { bg.style.backgroundImage = `url('${bgs[dayId]}')`; bg.style.opacity = 1; }, 300);
             }
-            
-            // 切換天氣城市
-            let city = 'osaka';
-            if (theme === 'kyoto') city = 'kyoto';
-            if (theme === 'kobe') city = 'kobe';
+            let city = 'osaka'; if (theme === 'kyoto') city = 'kyoto'; if (theme === 'kobe') city = 'kobe';
             fetchWeather(city);
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function toggleMap(card, locationName) {
+        function toggleMap(card, loc) {
             if(event.target.closest('a')) return;
-
             card.classList.toggle('expanded');
-            const wrapper = card.querySelector('.map-wrapper');
-            
+            const wrap = card.querySelector('.map-wrapper');
             if (card.classList.contains('expanded')) {
-                if (!wrapper.classList.contains('loaded')) {
-                    const encodedLoc = encodeURIComponent(locationName);
-                    // 使用 output=embed 參數
-                    wrapper.innerHTML = `<iframe class="map-frame" src="http://googleusercontent.com/maps.google.com/maps?q=${encodedLoc}&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>`;
-                    
-                    setTimeout(() => wrapper.classList.add('loaded'), 300);
+                if (!wrap.classList.contains('loaded')) {
+                    const enc = encodeURIComponent(loc);
+                    wrap.innerHTML = `<iframe class="map-frame" src="http://googleusercontent.com/maps.google.com/maps?q=${enc}&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0"></iframe>`;
+                    setTimeout(() => wrap.classList.add('loaded'), 300);
                 }
-                wrapper.style.height = "250px";
-            } else {
-                wrapper.style.height = "0";
-            }
+                wrap.style.height = "250px";
+            } else { wrap.style.height = "0"; }
         }
-        
-        // 初始化：載入 D1 天氣
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchWeather('osaka');
-        });
+
+        /* 工具箱邏輯 */
+        function toggleModal() {
+            const modal = document.getElementById('toolsModal');
+            modal.classList.toggle('open');
+        }
+        function closeModalOnBg(e) {
+            if(e.target.id === 'toolsModal') toggleModal();
+        }
+        function calcRate() {
+            const yen = parseFloat(document.getElementById('yenInput').value) || 0;
+            const twd = Math.round(yen * 0.22); // 簡單匯率 0.22
+            document.getElementById('twdResult').innerText = twd;
+        }
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ja-JP';
+            speechSynthesis.speak(utterance);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => { fetchWeather('osaka'); });
     </script>
 </body>
 </html>
