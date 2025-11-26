@@ -787,7 +787,7 @@
         </div>
     </div>
 
-    <script>
+  <script>
         const bgs = { d1: "Day1.jpg", d2: "Day2.jpg", d3: "Day3.jpg", d4: "Day4.jpg", d5: "Day5.jpg" };
         const coords = { osaka: { lat: 34.6937, lon: 135.5023, name: "大阪" }, kyoto: { lat: 35.0116, lon: 135.7681, name: "京都" }, kobe: { lat: 34.6901, lon: 135.1955, name: "神戶" } };
         const weatherCodes = { 0: { icon: '☀️', text: '晴' }, 1: { icon: '🌤️', text: '多雲' }, 2: { icon: '☁️', text: '陰' }, 3: { icon: '☁️', text: '陰' }, 51: { icon: '🌧️', text: '小雨' }, 61: { icon: '🌧️', text: '雨' }, 80: { icon: '🌦️', text: '陣雨' }, 95: { icon: '⛈️', text: '雷雨' } };
@@ -807,14 +807,13 @@
                 const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=Asia%2FTokyo`);
                 const data = await res.json();
                 const code = data.current_weather.weathercode;
-                const isDay = data.current_weather.is_day; // 1=Day, 0=Night
+                const isDay = data.current_weather.is_day; 
                 
                 let info = weatherCodes[code] || { icon: '🌡️', text: '' };
                 
-                // 夜間圖標切換邏輯
                 if (isDay === 0) {
-                    if (code === 0 || code === 1) info.icon = '🌙'; // 晴朗夜晚
-                    else if (code === 2 || code === 3) info.icon = '☁️'; // 陰天夜晚
+                    if (code === 0 || code === 1) info.icon = '🌙';
+                    else if (code === 2 || code === 3) info.icon = '☁️';
                 }
 
                 iconEl.innerText = info.icon;
@@ -827,13 +826,13 @@
             if (index < 0 || index >= totalDays) return;
             
             currentIndex = index;
-            const dayId = 'd1'; // default
+            const dayId = 'd1'; 
             const ids = ['d1', 'd2', 'd3', 'd4', 'd5'];
             const themes = ['osaka', 'osaka', 'kyoto', 'kobe', 'osaka'];
             const targetId = ids[index];
             const theme = themes[index];
 
-            // 更新 CSS 變數以改變 Header 漸層色
+            // Header 顏色
             if (theme === 'osaka') {
                 document.documentElement.style.setProperty('--header-gradient-1', 'rgba(183, 75, 75, 0.15)');
             } else if (theme === 'kyoto') {
@@ -842,7 +841,7 @@
                 document.documentElement.style.setProperty('--header-gradient-1', 'rgba(62, 98, 173, 0.15)');
             }
 
-            // 處理內容切換與動畫
+            // 內容切換
             document.querySelectorAll('.content').forEach(el => {
                 el.classList.remove('active', 'slide-left', 'slide-right');
                 if (el.id === targetId) {
@@ -852,28 +851,38 @@
                 }
             });
 
-            // 更新按鈕狀態
+            // 按鈕狀態與滾動修正 (解決標題偏移問題)
+            const tabsContainer = document.querySelector('.tabs');
             document.querySelectorAll('.tab').forEach((el, i) => {
-                if (i === index) el.classList.add('active');
-                else el.classList.remove('active');
+                if (i === index) {
+                    el.classList.add('active');
+                    // 手動計算滾動位置，只滾動 tabs 容器，不影響 window
+                    const scrollLeft = el.offsetLeft - (tabsContainer.offsetWidth / 2) + (el.offsetWidth / 2);
+                    tabsContainer.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+                } else {
+                    el.classList.remove('active');
+                }
             });
-            
-            // 滾動 tab 到可見範圍
-            const activeTab = document.querySelectorAll('.tab')[index];
-            activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 
-            // 更新主題與背景
+            // 主題背景
             document.body.setAttribute('data-theme', theme);
             const bg = document.getElementById('bg-layer');
             if (bg.style.backgroundImage !== `url('${bgs[targetId]}')`) {
                 bg.style.opacity = 0; setTimeout(() => { bg.style.backgroundImage = `url('${bgs[targetId]}')`; bg.style.opacity = 1; }, 300);
             }
             
-            // 更新天氣
+            // 天氣
             let city = 'osaka'; if (theme === 'kyoto') city = 'kyoto'; if (theme === 'kobe') city = 'kobe';
             fetchWeather(city);
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 相容性轉發
+        function switchTab(dayId, theme) {
+            const ids = ['d1', 'd2', 'd3', 'd4', 'd5'];
+            const idx = ids.indexOf(dayId);
+            jumpToTab(idx);
         }
 
         function toggleMap(card, loc) {
@@ -883,7 +892,6 @@
             if (card.classList.contains('expanded')) {
                 if (!wrap.classList.contains('loaded')) {
                     const enc = encodeURIComponent(loc);
-                    // 使用標準 Google Maps 嵌入網址
                     wrap.innerHTML = `<iframe class="map-frame" src="http://googleusercontent.com/maps.google.com/maps?q=${enc}&t=m&z=15&output=embed&iwloc=near" frameborder="0"></iframe>`;
                     setTimeout(() => wrap.classList.add('loaded'), 300);
                 }
@@ -891,7 +899,7 @@
             } else { wrap.style.height = "0"; }
         }
 
-        /* 工具箱邏輯 */
+        /* 工具箱 */
         function toggleModal() {
             const modal = document.getElementById('toolsModal');
             modal.classList.toggle('open');
@@ -920,7 +928,7 @@
             speechSynthesis.onvoiceschanged = () => {};
         }
 
-        /* === 滑動偵測邏輯 (防手震優化) === */
+        /* 滑動偵測 (防手震) */
         let touchStartX = 0;
         let touchStartY = 0;
         let touchEndX = 0;
@@ -939,27 +947,19 @@
         }, {passive: true});
 
         function handleSwipe() {
-            const threshold = 50; // 滑動靈敏度
+            const threshold = 50; 
             const xDiff = touchEndX - touchStartX;
             const yDiff = touchEndY - touchStartY;
             
-            // 垂直鎖定：只有當水平移動距離大於垂直移動距離時，才判定為換頁
             if (Math.abs(xDiff) > Math.abs(yDiff)) {
                 if (xDiff < -threshold) {
-                    // 向左滑 (下一頁)
-                    if (currentIndex < totalDays - 1) {
-                        jumpToTab(currentIndex + 1, 'left');
-                    }
+                    if (currentIndex < totalDays - 1) jumpToTab(currentIndex + 1, 'left');
                 } else if (xDiff > threshold) {
-                    // 向右滑 (上一頁)
-                    if (currentIndex > 0) {
-                        jumpToTab(currentIndex - 1, 'right');
-                    }
+                    if (currentIndex > 0) jumpToTab(currentIndex - 1, 'right');
                 }
             }
         }
 
-        // 初始化
         document.addEventListener('DOMContentLoaded', () => { 
             fetchWeather('osaka');
         });
