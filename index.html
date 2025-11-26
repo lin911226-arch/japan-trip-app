@@ -3,55 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>日式行程表 UI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    
+    <title>旅程規劃 - Kyoto & Osaka</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            /* 配色邏輯 */
-            --bg-cream: #F9F7F2;       /* 米白底色 */
-            --primary-red: #8B2E2E;    /* 深赤紅 (鳥居色) */
-            --text-main: #333333;      /* 墨黑 */
-            --text-light: #777777;     /* 淺灰 */
-            --accent-gold: #C4B495;    /* 金棕色邊框 */
-            --white: #FFFFFF;
+            /* --- 色彩系統 --- */
+            --bg-paper: #F9F7F2;        /* 和紙米色背景 */
+            --primary-red: #8B2E2E;     /* 深赤紅 (鳥居色) - 用於重點、Day2 */
+            --text-ink: #2C2C2C;        /* 墨色 - 主要文字 */
+            --text-gray: #666666;       /* 灰墨 - 次要文字 */
+            --accent-gold: #C4B495;     /* 枯茶色 - 邊框、裝飾 */
+            --card-bg: #FFFFFF;         /* 卡片白 */
+            
+            /* --- 功能性顏色 (保留城市色調邏輯，但調低飽和度以融入禪風) --- */
+            --tag-kyoto: #5D4C5E;       /* 紫色調 (京都) */
+            --tag-osaka: #3E546B;       /* 藍色調 (大阪) */
+            --tag-nara: #5B6B46;        /* 綠色調 (奈良) */
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
 
         body {
-            background-color: var(--bg-cream);
-            font-family: 'Noto Sans TC', sans-serif;
-            color: var(--text-main);
-            /* 模擬背景的點狀紋理 */
+            background-color: var(--bg-paper);
+            color: var(--text-ink);
+            font-family: 'Noto Sans TC', sans-serif; /* 內文預設黑體，易讀 */
+            /* 模擬背景點狀紋理 */
             background-image: radial-gradient(var(--accent-gold) 1px, transparent 1px);
-            background-size: 20px 20px;
-            padding-bottom: 80px; /* 留給底部Footer空間 */
+            background-size: 24px 24px;
+            padding-bottom: 100px;
         }
 
-        /* --- 頂部 Hero 區域 --- */
+        /* --- 字體工具 --- */
+        .font-serif { font-family: 'Noto Serif TC', serif; }
+        .font-display { font-family: 'Playfair Display', serif; }
+
+        /* --- Header 區域 --- */
         .header {
             position: relative;
-            height: 280px;
-            background-image: url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); /* 示意圖：日本風景 */
-            background-size: cover;
-            background-position: center;
+            height: 320px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 20px;
+            padding: 20px 24px;
         }
 
-        /* 漸層遮罩讓文字更清晰 */
-        .header::after {
+        .header-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* 替換為京都/鳥居風格圖片 */
+            background-image: url('https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+
+        /* 漸層遮罩：讓圖片底部柔和過渡到米色背景 */
+        .header-bg::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, rgba(249,247,242,0) 0%, rgba(249,247,242,0.8) 70%, var(--bg-cream) 100%);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(249,247,242,0) 40%, rgba(249,247,242,0.9) 85%, var(--bg-paper) 100%);
         }
 
         .header-content {
@@ -59,239 +74,278 @@
             z-index: 1;
         }
 
-        .time-display {
-            font-family: 'Playfair Display', serif; /* 英數用襯線體 */
-            font-size: 4rem;
+        .current-time {
+            font-size: 4.5rem;
             color: var(--primary-red);
             line-height: 1;
+            margin-bottom: 5px;
             display: flex;
             align-items: baseline;
+            text-shadow: 0 2px 10px rgba(249,247,242,0.8);
         }
 
-        .time-display span {
-            font-size: 1rem;
-            color: var(--text-light);
-            margin-left: 10px;
-            font-family: 'Noto Serif TC', serif;
+        .date-badge {
+            margin-left: 15px;
+            padding-left: 15px;
             border-left: 1px solid var(--primary-red);
-            padding-left: 10px;
-        }
-
-        .destination-row {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-            justify-content: space-between;
-        }
-
-        .route {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .icon-transport {
-            font-size: 1.5rem; /* 這裡可以用圖片或emoji代替 */
-        }
-
-        .location-sub {
-            color: var(--accent-gold);
-            font-size: 0.9rem;
-            margin-top: 5px;
-            font-family: 'Playfair Display', serif;
-        }
-
-        /* 天氣小卡 */
-        .weather-box {
-            border: 1px solid var(--accent-gold);
-            padding: 5px 15px;
-            text-align: center;
-            background: rgba(255,255,255,0.8);
-        }
-        .weather-temp { font-size: 1.2rem; font-family: 'Playfair Display', serif; }
-        .weather-desc { font-size: 0.7rem; color: var(--text-light); }
-
-        /* --- 天數選擇器 --- */
-        .day-selector {
-            display: flex;
-            overflow-x: auto;
-            padding: 20px;
-            gap: 10px;
-            scrollbar-width: none; /* Firefox */
-        }
-        .day-selector::-webkit-scrollbar { display: none; } /* Chrome/Safari */
-
-        .day-card {
-            min-width: 60px;
-            height: 70px;
-            border: 1px solid #ddd;
-            background: var(--white);
             display: flex;
             flex-direction: column;
             justify-content: center;
+        }
+        .date-text { font-size: 1.1rem; color: var(--text-ink); font-weight: bold; }
+        .live-tag { font-size: 0.6rem; letter-spacing: 2px; color: var(--text-gray); text-transform: uppercase; margin-top: 2px;}
+
+        .route-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 10px;
+        }
+
+        .cities {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-ink);
+            display: flex;
             align-items: center;
-            font-family: 'Playfair Display', serif;
-            color: var(--text-light);
+            gap: 12px;
+        }
+        
+        .transport-icon { 
+            font-size: 1.5rem; 
+            filter: sepia(0.5) hue-rotate(-30deg); /* 讓emoji顏色復古一點 */
         }
 
-        .day-card.active {
+        .weather-widget {
+            background: rgba(255,255,255,0.7);
+            border: 1px solid var(--accent-gold);
+            padding: 8px 16px;
+            text-align: center;
+            backdrop-filter: blur(4px);
+        }
+        .temp { font-size: 1.4rem; color: var(--text-ink); }
+        .weather-desc { font-size: 0.75rem; color: var(--text-gray); margin-top: -2px;}
+
+        .location-pin {
+            margin-top: 8px;
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* --- 天數選擇器 (橫向捲動) --- */
+        .day-scroller {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 24px 20px 24px;
+            gap: 12px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .day-scroller::-webkit-scrollbar { display: none; }
+
+        .day-box {
+            flex: 0 0 auto;
+            width: 65px;
+            height: 75px;
+            border: 1px solid #E0E0E0;
+            background: var(--card-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .day-box.active {
             background-color: var(--primary-red);
-            color: var(--white);
             border-color: var(--primary-red);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(139, 46, 46, 0.3);
         }
+        /* 讓非 active 的文字保持深色 */
+        .day-box:not(.active) { color: var(--text-gray); }
+        
+        .day-label { font-size: 0.7rem; font-family: 'Playfair Display', serif; margin-bottom: 2px;}
+        .day-number { font-size: 1.6rem; font-family: 'Playfair Display', serif; font-weight: 500; }
 
-        .day-label { font-size: 0.7rem; margin-bottom: 2px; }
-        .day-num { font-size: 1.5rem; }
-
-        /* --- 操作按鈕區 --- */
+        /* --- 操作列 --- */
         .action-bar {
-            padding: 0 20px;
+            padding: 0 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
-        .reset-btn {
-            color: var(--text-light);
+        .reset-link {
+            color: var(--text-gray);
             text-decoration: underline;
             font-size: 0.9rem;
+            font-family: 'Noto Serif TC', serif;
             cursor: pointer;
         }
         .edit-btn {
             background: transparent;
-            border: 1px solid var(--text-main);
+            border: 1px solid var(--text-ink);
             padding: 8px 20px;
-            font-family: 'Noto Serif TC', serif;
             font-size: 0.9rem;
+            font-family: 'Noto Serif TC', serif;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            cursor: pointer;
         }
+        .edit-btn:hover { background: rgba(0,0,0,0.05); }
 
-        /* --- 行程時間軸 --- */
+        /* --- 時間軸與行程卡片 --- */
         .timeline-container {
-            padding: 0 20px;
             position: relative;
+            padding: 0 24px;
         }
 
-        /* 左側紅線 */
+        /* 左側貫穿線 */
         .timeline-line {
             position: absolute;
-            left: 45px; /* 調整線的位置 */
-            top: 0;
-            bottom: 0;
+            left: 45px; /* 線的位置 */
+            top: 0; bottom: 0;
             width: 1px;
             background-color: var(--primary-red);
-            opacity: 0.3;
+            opacity: 0.4;
             z-index: 0;
         }
 
-        .timeline-item {
-            display: flex;
-            margin-bottom: 25px;
+        .schedule-item {
             position: relative;
+            margin-bottom: 28px;
             z-index: 1;
         }
 
-        /* 時間點點 */
-        .timeline-dot {
+        /* 時間軸上的圓點 */
+        .dot {
             position: absolute;
-            left: 21px; /* 線的位置 - 點的一半寬度 */
-            top: 20px;
-            width: 8px;
-            height: 8px;
+            left: 17px; /* 調整點的位置使其對齊線 */
+            top: 24px;
+            width: 9px;
+            height: 9px;
             background-color: var(--primary-red);
             border-radius: 50%;
+            z-index: 2;
         }
-        /* 如果是重點行程，點點大一點 */
-        .timeline-item.major .timeline-dot {
-            width: 12px;
-            height: 12px;
-            left: 19px;
-            border: 2px solid var(--white);
+        /* 重點行程的大圓點 */
+        .schedule-item.major .dot {
+            width: 13px;
+            height: 13px;
+            left: 15px;
+            border: 2px solid var(--bg-paper);
             box-shadow: 0 0 0 1px var(--primary-red);
         }
 
-        .timeline-content {
-            background: var(--white);
-            flex: 1;
-            margin-left: 40px; /* 留出時間軸空間 */
+        .card {
+            margin-left: 36px; /* 留出空間給時間軸 */
+            background: var(--card-bg);
             padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            border-top: 3px solid var(--primary-red); /* 卡片頂部紅線 */
-            display: flex;
-            flex-direction: column;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            /* 風格化邊框：左側紅色粗線 */
+            border-left: 4px solid var(--primary-red);
+            position: relative;
+        }
+        
+        /* 城市色調標籤 (Optional) */
+        .city-tag {
+            position: absolute;
+            top: 0; right: 0;
+            padding: 4px 8px;
+            font-size: 0.65rem;
+            color: #fff;
+            font-family: 'Noto Serif TC', serif;
         }
 
-        .event-header {
+        .card-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
+            align-items: baseline;
+            margin-bottom: 8px;
+            padding-right: 20px; /* 避開標籤 */
         }
 
-        .event-time {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            color: var(--text-main);
+        .time {
+            font-size: 1.6rem;
+            color: var(--text-ink);
+            font-weight: 400; /* Playfair 本身就很有份量 */
         }
-
-        .event-price {
+        
+        .price-tag {
             background-color: var(--primary-red);
-            color: var(--white);
+            color: #fff;
             padding: 2px 8px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-family: 'Playfair Display', serif;
+        }
+        /* 免費項目樣式 */
+        .price-tag.free {
+            background-color: transparent;
+            color: var(--text-gray);
+            border: 1px solid #ddd;
         }
 
         .event-title {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--text-main);
-            margin-bottom: 5px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-ink);
+            line-height: 1.4;
         }
 
         .event-desc {
             font-size: 0.9rem;
-            color: var(--text-light);
-            line-height: 1.5;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 12px;
+            text-align: justify;
         }
-        
-        .event-location {
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: var(--accent-gold);
+
+        .location-row {
             display: flex;
             align-items: center;
+            font-size: 0.8rem;
+            color: var(--primary-red);
+            font-weight: 500;
             gap: 5px;
         }
 
         /* --- 底部合計 --- */
         .footer {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--bg-cream);
-            border-top: 1px solid #ddd;
-            padding: 15px 20px;
-            z-index: 10;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(249, 247, 242, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #E0E0E0;
+            padding: 16px 24px;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .footer-label {
+        
+        .total-label {
             font-size: 0.7rem;
-            color: var(--text-light);
-            letter-spacing: 1px;
-            margin-bottom: 5px;
+            letter-spacing: 1.5px;
+            color: var(--text-gray);
+            font-family: 'Noto Serif TC', serif;
+            text-transform: uppercase;
         }
-        .footer-total {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+
+        .total-amount {
+            font-size: 1.8rem;
             color: var(--primary-red);
+            font-weight: 600;
+        }
+        
+        .coins-icon {
+            opacity: 0.3;
+            font-size: 1.5rem;
         }
 
     </style>
@@ -299,104 +353,149 @@
 <body>
 
     <header class="header">
+        <div class="header-bg"></div>
         <div class="header-content">
-            <div class="time-display">
-                11:31
-                <span>週一<br><small style="font-size:0.6em; margin-left:0;">LIVE</small></span>
-            </div>
-            
-            <div class="destination-row">
-                <div class="route">
-                    名古屋 <span class="icon-transport">🚄</span> 上諏訪
-                </div>
-                <div class="weather-box">
-                    <div class="weather-temp">12°</div>
-                    <div class="weather-desc">舒適涼爽</div>
+            <div class="current-time font-display">
+                09:00
+                <div class="date-badge font-serif">
+                    <span class="date-text">三月十五日</span>
+                    <span class="live-tag">LIVE</span>
                 </div>
             </div>
-            <div class="location-sub">📍 Suwa</div>
+
+            <div class="route-info">
+                <div class="cities font-serif">
+                    京都 <span class="transport-icon">🚄</span> 伏見稻荷
+                </div>
+                <div class="weather-widget">
+                    <div class="temp font-display">15°</div>
+                    <div class="weather-desc font-serif">舒適涼爽</div>
+                </div>
+            </div>
+            <div class="location-pin font-display">📍 Kyoto</div>
         </div>
     </header>
 
-    <div class="day-selector">
-        <div class="day-card">
-            <div class="day-label">Day</div>
-            <div class="day-num">1</div>
+    <div class="day-scroller">
+        <div class="day-box">
+            <span class="day-label">Day</span>
+            <span class="day-number">1</span>
         </div>
-        <div class="day-card active">
-            <div class="day-label">Day</div>
-            <div class="day-num">2</div>
+        <div class="day-box active">
+            <span class="day-label">Day</span>
+            <span class="day-number">2</span>
         </div>
-        <div class="day-card">
-            <div class="day-label">Day</div>
-            <div class="day-num">3</div>
+        <div class="day-box">
+            <span class="day-label">Day</span>
+            <span class="day-number">3</span>
         </div>
-        <div class="day-card">
-            <div class="day-label">Day</div>
-            <div class="day-num">4</div>
+        <div class="day-box">
+            <span class="day-label">Day</span>
+            <span class="day-number">4</span>
         </div>
-        <div class="day-card">
-            <div class="day-label">Day</div>
-            <div class="day-num">5</div>
+        <div class="day-box">
+            <span class="day-label">Day</span>
+            <span class="day-number">5</span>
         </div>
-        <div class="day-card">
-            <div class="day-label">Day</div>
-            <div class="day-num">6</div>
+        <div class="day-box">
+            <span class="day-label">Day</span>
+            <span class="day-number">6</span>
+        </div>
+        <div class="day-box">
+            <span class="day-label">Day</span>
+            <span class="day-number">7</span>
         </div>
     </div>
 
     <div class="action-bar">
-        <div class="reset-btn">重置資料</div>
-        <button class="edit-btn">✒ 編輯內容</button>
+        <div class="reset-link">重置資料</div>
+        <button class="edit-btn">✎ 編輯內容</button>
     </div>
 
     <div class="timeline-container">
         <div class="timeline-line"></div>
 
-        <div class="timeline-item major">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-                <div class="event-header">
-                    <div class="event-time">06:30</div>
-                    <div class="event-price">¥ 0</div>
+        <div class="schedule-item major">
+            <div class="dot"></div>
+            <div class="card">
+                <div class="city-tag" style="background: var(--tag-kyoto);">KYOTO</div>
+                
+                <div class="card-header font-display">
+                    <span class="time">09:00</span>
+                    <span class="price-tag free">[¥0]</span>
                 </div>
-                <h3 class="event-title">起床 & 早餐</h3>
-                <div class="event-desc">相鐵 FRESA INN - 自助式早餐。</div>
-                <div class="event-location">📍 地圖搜尋</div>
+                <h3 class="event-title font-serif">伏見稻荷大社 & 登山</h3>
+                <p class="event-desc">
+                    穿越千本鳥居，漫步於神聖的山林步道。建議早起避開人潮，享受清幽的氛圍。
+                </p>
+                <div class="location-row font-serif">
+                    📍 京都府京都市伏見區
+                </div>
             </div>
         </div>
 
-        <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-                <div class="event-header">
-                    <div class="event-time">08:00</div>
-                    <div class="event-price">¥ 12000</div>
+        <div class="schedule-item">
+            <div class="dot"></div>
+            <div class="card">
+                <div class="city-tag" style="background: var(--tag-kyoto);">KYOTO</div>
+                <div class="card-header font-display">
+                    <span class="time">13:00</span>
+                    <span class="price-tag">[¥2500]</span>
                 </div>
-                <h3 class="event-title">搭乘新幹線</h3>
-                <div class="event-desc">前往上諏訪，享受沿途風景。車次：Hikari 502。</div>
-                <div class="event-location">📍 名古屋車站</div>
+                <h3 class="event-title font-serif">錦市場午餐</h3>
+                <p class="event-desc">
+                    品嚐「京都的廚房」，體驗當地特色小吃與新鮮海鮮。推薦：豆乳甜甜圈、三木雞卵。
+                </p>
+                <div class="location-row font-serif">
+                    📍 中京區錦小路通
+                </div>
+            </div>
+        </div>
+
+        <div class="schedule-item major">
+            <div class="dot"></div>
+            <div class="card">
+                <div class="city-tag" style="background: var(--tag-kyoto);">KYOTO</div>
+                <div class="card-header font-display">
+                    <span class="time">15:30</span>
+                    <span class="price-tag free">[¥600]</span>
+                </div>
+                <h3 class="event-title font-serif">清水寺 & 二年坂散策</h3>
+                <p class="event-desc">
+                    參觀世界遺產清水舞台，隨後漫步於充滿古風的二年坂與三年坂，選購伴手禮。
+                </p>
+                <div class="location-row font-serif">
+                    📍 東山區清水
+                </div>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="dot"></div>
+            <div class="card">
+                <div class="city-tag" style="background: var(--tag-kyoto);">GION</div>
+                <div class="card-header font-display">
+                    <span class="time">18:00</span>
+                    <span class="price-tag">[¥4000]</span>
+                </div>
+                <h3 class="event-title font-serif">祇園角文化表演</h3>
+                <p class="event-desc">
+                    欣賞茶道、花道、古琴及舞妓京舞表演，體驗濃厚的傳統藝能文化。
+                </p>
+                <div class="location-row font-serif">
+                    📍 東山區祇園町
+                </div>
             </div>
         </div>
         
-         <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-                <div class="event-header">
-                    <div class="event-time">10:30</div>
-                    <div class="event-price">¥ 500</div>
-                </div>
-                <h3 class="event-title">諏訪湖散策</h3>
-                <div class="event-desc">參觀立石公園，拍攝《你的名字》場景靈感地。</div>
-                <div class="event-location">📍 立石公園</div>
-            </div>
-        </div>
-
     </div>
 
     <footer class="footer">
-        <div class="footer-label">TOTAL EXPENSE</div>
-        <div class="footer-total">¥ 12,500</div>
+        <div class="total-info">
+            <div class="total-label">TOTAL EXPENSE</div>
+            <div class="total-amount font-display">¥ 6,500</div>
+        </div>
+        <div class="coins-icon">🪙</div>
     </footer>
 
 </body>
