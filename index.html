@@ -10,28 +10,38 @@
     <meta name="apple-mobile-web-app-title" content="關西之旅">
     <link rel="apple-touch-icon" href="https://img.icons8.com/color/180/torii.png">
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* CSS Reset & 變數 */
+        /* CSS Reset */
         * { box-sizing: border-box; -webkit-user-select: none; user-select: none; }
         
         :root {
-            --primary: #FF5E57;
-            --text-main: #1C1C1E;
-            --text-sub: #636366;
-            --bg-color: #F2F2F7;
-            --card-bg: rgba(255, 255, 255, 0.92);
-            --card-border: rgba(255, 255, 255, 0.6);
-            --header-bg: rgba(255, 255, 255, 0.85);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            /* 禪風配色 (日本傳統色) */
+            --bg-color: #F4F1EA;        /* 生成色 (和紙底色) */
+            --text-main: #2B2B2B;       /* 墨色 */
+            --text-sub: #6E6B65;        /* 煤竹色 */
+            
+            /* 卡片風格 */
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --card-border: #E0DCD5;
+            --header-bg: rgba(244, 241, 234, 0.92); /* 與背景融合 */
+            --shadow: 0 4px 20px rgba(43, 43, 43, 0.06);
 
-            /* 主題色 */
-            --accent-osaka: #FF3B30;
-            --accent-kyoto: #AF52DE;
-            --accent-kobe: #007AFF;
+            /* 主題強調色 (傳統色系) */
+            --accent-osaka: #B74B4B;    /* 茜色 (沉穩紅) */
+            --accent-kyoto: #6A4C9C;    /* 京紫 (優雅紫) */
+            --accent-kobe: #3E62AD;     /* 琉璃色 (深沈藍) */
+            
+            /* 輔助色 */
+            --line-color: #D3D3D3;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+            /* 字體設定：標題用宋體，內文用黑體 */
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
@@ -40,9 +50,10 @@
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
             overflow-x: hidden;
+            line-height: 1.7; /* 增加行高，增加呼吸感 */
         }
 
-        /* 背景圖片層 */
+        /* 背景圖片層 (降低飽和度以配合禪風) */
         #bg-layer {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -50,279 +61,350 @@
             background-position: center;
             background-repeat: no-repeat;
             z-index: -1;
-            transition: opacity 0.4s ease-in-out;
-            filter: brightness(0.95); 
+            transition: opacity 0.6s ease-in-out;
+            filter: brightness(0.9) sepia(0.1); /* 微微泛黃復古感 */
         }
         
-        /* 頂部導航 */
+        /* 頂部導航 - 簡約紙張感 */
         .header {
             background: var(--header-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.03);
             padding-top: env(safe-area-inset-top);
-            padding-bottom: 5px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            padding-bottom: 8px;
         }
 
         .title-container {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 20px 5px 20px;
+            padding: 15px 24px 5px 24px;
         }
 
         .title-bar {
-            font-weight: 800;
-            font-size: 20px;
+            font-family: 'Noto Serif JP', serif; /* 宋體標題 */
+            font-weight: 700;
+            font-size: 22px;
             color: var(--text-main);
-            letter-spacing: -0.5px;
+            letter-spacing: 0.1em; /* 增加字距 */
         }
 
-        /* 天氣小卡 */
+        /* 天氣小卡 - 印章/標籤風格 */
         .weather-badge {
             display: flex;
             align-items: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-main);
-            border: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            gap: 8px;
+            background: #fff;
+            padding: 6px 14px;
+            border-radius: 4px; /* 方正一點的圓角 */
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-sub);
+            border: 1px solid #E5E0D8;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
             transition: all 0.3s ease;
+            font-family: 'Noto Serif JP', serif;
         }
         .weather-badge.loading { opacity: 0.7; }
         
         .tabs {
             display: flex;
             overflow-x: auto;
-            padding: 10px 15px 12px 15px;
+            padding: 10px 20px 12px 20px;
             scrollbar-width: none;
-            gap: 12px;
+            gap: 16px;
         }
         .tabs::-webkit-scrollbar { display: none; }
 
+        /* Tab 按鈕 - 傳統書籤風格 */
         .tab {
             flex: 0 0 auto;
-            padding: 8px 18px;
-            border-radius: 20px;
-            background: rgba(0, 0, 0, 0.04);
-            font-size: 13px;
+            padding: 6px 0;
+            background: transparent;
+            font-family: 'Noto Serif JP', serif;
+            font-size: 15px;
             font-weight: 600;
-            color: var(--text-sub);
+            color: #999;
             border: none;
-            transition: all 0.3s;
+            transition: all 0.4s ease;
+            position: relative;
+            letter-spacing: 0.05em;
+        }
+        
+        /* Tab 選中效果：底部線條 */
+        .tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: transparent;
+            transition: width 0.3s ease;
         }
 
         /* 動態主題色按鈕 */
-        body[data-theme="osaka"] .tab.active { background: var(--accent-osaka); color: white; box-shadow: 0 4px 12px rgba(255, 59, 48, 0.35); transform: scale(1.02); }
-        body[data-theme="kyoto"] .tab.active { background: var(--accent-kyoto); color: white; box-shadow: 0 4px 12px rgba(175, 82, 222, 0.35); transform: scale(1.02); }
-        body[data-theme="kobe"] .tab.active { background: var(--accent-kobe); color: white; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.35); transform: scale(1.02); }
+        body[data-theme="osaka"] .tab.active { color: var(--accent-osaka); }
+        body[data-theme="osaka"] .tab.active::after { width: 100%; background-color: var(--accent-osaka); }
+        
+        body[data-theme="kyoto"] .tab.active { color: var(--accent-kyoto); }
+        body[data-theme="kyoto"] .tab.active::after { width: 100%; background-color: var(--accent-kyoto); }
+        
+        body[data-theme="kobe"] .tab.active { color: var(--accent-kobe); }
+        body[data-theme="kobe"] .tab.active::after { width: 100%; background-color: var(--accent-kobe); }
 
         /* 內容區與動畫 */
         .content-container {
             position: relative;
             min-height: 80vh;
+            padding-top: 10px;
         }
 
         .content {
-            padding: 20px;
+            padding: 20px 24px;
             display: none;
-            animation-duration: 0.4s;
-            animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+            animation-duration: 0.5s;
+            animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
             animation-fill-mode: both;
         }
         .content.active { display: block; }
 
-        @keyframes slideInRight { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes slideInLeft { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideInRight { from { transform: translateX(30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideInLeft { from { transform: translateX(-30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         
         .slide-left { animation-name: slideInRight; }
         .slide-right { animation-name: slideInLeft; }
 
-        /* 卡片樣式 */
+        /* 卡片樣式 - 和紙質感 */
         .card {
             background: var(--card-bg);
-            border-radius: 24px;
-            margin-bottom: 20px;
+            border-radius: 8px; /* 較小的圓角，更像紙張 */
+            margin-bottom: 24px;
             border: 1px solid var(--card-border);
             overflow: hidden;
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
             box-shadow: var(--shadow);
-            transition: transform 0.2s;
+            transition: transform 0.3s ease;
+            position: relative;
         }
+        
+        /* 裝飾線 (左側強調色線條) */
+        .card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #ccc;
+            transition: background 0.3s;
+        }
+        body[data-theme="osaka"] .card::before { background: var(--accent-osaka); }
+        body[data-theme="kyoto"] .card::before { background: var(--accent-kyoto); }
+        body[data-theme="kobe"] .card::before { background: var(--accent-kobe); }
 
         .card-header {
-            padding: 20px;
+            padding: 22px 24px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(255,255,255,0.5);
+            background: transparent;
             border-bottom: 1px solid rgba(0,0,0,0.03);
             transition: background 0.2s;
         }
-        .card-header:active { background: rgba(255,255,255,0.8); }
+        .card-header:active { background: rgba(0,0,0,0.02); }
 
         .card-header h3 {
             margin: 0;
-            font-size: 17px;
+            font-family: 'Noto Serif JP', serif;
+            font-size: 18px;
             font-weight: 700;
             color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
+            letter-spacing: 0.05em;
         }
 
         .icon-box {
-            width: 36px; height: 36px;
-            border-radius: 12px;
+            width: 32px; height: 32px;
+            border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 20px;
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            font-size: 18px;
+            background: #F4F1EA; /* 與背景同色 */
+            border: 1px solid #E0DCD5;
+            color: #555;
         }
 
-        .toggle-icon { color: #C7C7CC; font-size: 12px; transition: transform 0.4s; }
+        .toggle-icon { color: #999; font-size: 10px; transition: transform 0.4s; letter-spacing: 2px; }
         .card.expanded .toggle-icon { transform: rotate(180deg); color: var(--text-main); }
 
-        /* 地圖區 (修復高度與載入) */
+        /* 地圖區 */
         .map-wrapper {
             height: 0; overflow: hidden;
-            transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #E5E5EA;
+            transition: height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            background: #F0F0F0;
             position: relative;
-        }
-        .map-wrapper::before {
-            content: '地圖載入中...';
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-            color: #8E8E93; font-size: 13px;
         }
         .map-frame { width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity 0.5s; position: relative; z-index: 2; }
         .map-wrapper.loaded .map-frame { opacity: 1; }
 
-        /* 時間軸與細節 */
-        .details { padding: 10px 24px 28px 24px; }
-        .timeline-item { position: relative; padding-left: 28px; margin-top: 24px; border-left: 2px solid rgba(0,0,0,0.06); }
+        /* 時間軸 - 禪風細線 */
+        .details { padding: 15px 24px 30px 24px; }
+        .timeline-item { position: relative; padding-left: 32px; margin-top: 30px; border-left: 1px solid var(--line-color); } /* 更細的線 */
         .timeline-item:last-child { border-left-color: transparent; }
+        
         .timeline-dot {
-            position: absolute; left: -7px; top: 0;
-            width: 12px; height: 12px;
+            position: absolute; left: -5px; top: 6px;
+            width: 11px; height: 11px;
             border-radius: 50%;
             background: #fff;
-            box-shadow: 0 0 0 4px rgba(255,255,255,0.8);
+            border: 2px solid var(--line-color); /* 空心圓點 */
             z-index: 1;
+            transition: border-color 0.3s;
         }
-        body[data-theme="osaka"] .timeline-dot { background: var(--accent-osaka); }
-        body[data-theme="kyoto"] .timeline-dot { background: var(--accent-kyoto); }
-        body[data-theme="kobe"] .timeline-dot { background: var(--accent-kobe); }
+        body[data-theme="osaka"] .timeline-dot { border-color: var(--accent-osaka); }
+        body[data-theme="kyoto"] .timeline-dot { border-color: var(--accent-kyoto); }
+        body[data-theme="kobe"] .timeline-dot { border-color: var(--accent-kobe); }
 
-        .time { font-size: 13px; font-weight: 700; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
+        .time { 
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 13px; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            display: block; 
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+        }
         body[data-theme="osaka"] .time { color: var(--accent-osaka); }
         body[data-theme="kyoto"] .time { color: var(--accent-kyoto); }
         body[data-theme="kobe"] .time { color: var(--accent-kobe); }
 
-        .activity { font-size: 15px; line-height: 1.6; color: var(--text-main); }
-        .activity strong { font-weight: 600; color: #000; }
+        .activity { 
+            font-size: 15px; 
+            line-height: 1.8; 
+            color: var(--text-main); 
+            text-align: justify;
+        }
+        .activity strong { 
+            font-weight: 600; 
+            color: #000; 
+            border-bottom: 1px dotted #999; /* 強調文字下方加虛線 */
+        }
 
-        .btn-group { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; }
+        /* 按鈕 - 樸實風格 */
+        .btn-group { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 12px; }
         .live-btn {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 8px 16px; border-radius: 18px;
-            font-size: 13px; font-weight: 600; text-decoration: none;
-            transition: 0.2s; background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.02);
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 18px; border-radius: 4px; /* 方角 */
+            font-size: 13px; font-weight: 500; text-decoration: none;
+            transition: 0.2s; background: #F9F9F9;
+            border: 1px solid #DDD; color: var(--text-sub);
+            letter-spacing: 0.05em;
             -webkit-user-select: none; user-select: none;
         }
-        .live-btn:active { transform: scale(0.96); background: #f5f5f5; }
-        .live-btn.train { color: #007AFF; }
-        .live-btn.walk { color: #34C759; }
+        .live-btn:active { transform: translateY(1px); background: #EEE; }
+        .live-btn.train { border-color: rgba(62, 98, 173, 0.3); color: #3E62AD; background: rgba(62, 98, 173, 0.05); }
+        .live-btn.walk { border-color: rgba(100, 140, 80, 0.3); color: #648C50; background: rgba(100, 140, 80, 0.05); }
 
+        /* 提示框 - 傳統信箋風格 */
         .note {
-            margin-top: 14px; font-size: 13px; color: #856404; background: #FFF8E1;
-            padding: 14px; border-radius: 16px; line-height: 1.5; display: flex; gap: 8px;
+            margin-top: 18px; 
+            font-size: 13px; 
+            color: #5D5545; 
+            background: #FDFCF5;
+            padding: 16px; 
+            border: 1px dashed #C9C0B1;
+            border-radius: 6px;
+            line-height: 1.6; 
+            display: flex; 
+            gap: 10px;
         }
 
         /* === 懸浮工具箱樣式 === */
         .fab-container {
-            position: fixed; bottom: 30px; right: 20px; z-index: 200;
+            position: fixed; bottom: 35px; right: 25px; z-index: 200;
         }
         .fab-btn {
-            width: 56px; height: 56px; border-radius: 28px;
-            background: #2c3e50; color: white;
-            border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            font-size: 24px; cursor: pointer;
+            width: 52px; height: 52px; border-radius: 12px; /* 稍微方一點 */
+            background: #333; color: #F4F1EA;
+            border: 1px solid #555; 
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            font-size: 22px; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
         }
-        .fab-btn:active { transform: scale(0.9); }
+        .fab-btn:active { transform: scale(0.95); background: #000; }
 
         /* 模態視窗 */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 300;
+            background: rgba(40, 40, 40, 0.6); z-index: 300; /* 背景深色一點 */
             display: none; align-items: center; justify-content: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(4px);
         }
-        .modal-overlay.open { display: flex; animation: fadeIn 0.2s; }
+        .modal-overlay.open { display: flex; animation: fadeIn 0.3s; }
         
         .modal-card {
-            width: 90%; max-width: 320px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            display: flex; flex-direction: column; gap: 20px;
+            width: 88%; max-width: 320px;
+            background: #FDFBF7; /* 純紙色 */
+            border-radius: 8px;
+            padding: 28px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            display: flex; flex-direction: column; gap: 24px;
+            border: 1px solid #E5E0D8;
         }
         
-        .modal-header { display: flex; justify-content: space-between; align-items: center; }
-        .modal-title { font-size: 18px; font-weight: 800; color: #333; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EEE; padding-bottom: 15px; }
+        .modal-title { font-family: 'Noto Serif JP', serif; font-size: 20px; font-weight: 700; color: #333; letter-spacing: 0.1em; }
         .close-btn { background: none; border: none; font-size: 24px; color: #999; cursor: pointer; padding: 0; }
 
-        .tool-title { font-size: 13px; font-weight: 700; color: #666; margin-bottom: 8px; letter-spacing: 1px; }
+        .tool-title { font-size: 12px; font-weight: 600; color: #888; margin-bottom: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
         
         /* 匯率計算機 */
         .calc-box { 
             display: flex; gap: 10px; align-items: center; 
-            background: #f0f2f5; padding: 12px; border-radius: 12px; 
+            background: #F4F1EA; padding: 12px; border-radius: 4px; border: 1px solid #EBE7E0;
         }
         .calc-input { 
             flex: 1; min-width: 0;
             border: none; background: transparent; 
-            font-size: 18px; font-weight: bold; color: #333; text-align: right; outline: none; 
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 18px; font-weight: 500; color: #333; text-align: right; outline: none; 
         }
-        .calc-label { font-size: 14px; font-weight: 600; color: #666; white-space: nowrap; }
-        .calc-result { font-size: 18px; font-weight: bold; color: #007AFF; margin-left: auto; }
+        .calc-label { font-size: 13px; font-weight: 500; color: #777; white-space: nowrap; }
+        .calc-result { font-size: 18px; font-weight: 700; color: var(--accent-osaka); margin-left: auto; }
 
         /* 日語小卡 */
-        .phrase-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .phrase-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .phrase-btn {
-            background: #fff; border: 1px solid #eee; border-radius: 12px;
-            padding: 10px; text-align: center; cursor: pointer;
+            background: #fff; border: 1px solid #E0DCD5; border-radius: 4px;
+            padding: 12px 8px; text-align: center; cursor: pointer;
             transition: 0.2s; -webkit-user-select: none;
         }
-        .phrase-btn:active { background: #f0f8ff; border-color: #007AFF; }
-        .p-jp { display: block; font-size: 14px; font-weight: 700; color: #333; margin-bottom: 2px; }
+        .phrase-btn:active { background: #F9F9F9; border-color: #999; }
+        .p-jp { display: block; font-family: 'Noto Serif JP', serif; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 4px; }
         .p-zh { display: block; font-size: 11px; color: #888; }
 
         /* 地鐵圖 */
         .map-link-btn {
-            display: block; width: 100%; padding: 12px;
-            background: #28C76F; color: white;
+            display: block; width: 100%; padding: 14px;
+            background: #5D7259; /* 竹青色 */
+            color: white;
             text-align: center; text-decoration: none;
-            border-radius: 12px; font-weight: 700; font-size: 14px;
+            border-radius: 4px; font-weight: 500; font-size: 14px;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            letter-spacing: 0.1em;
+            transition: background 0.2s;
         }
+        .map-link-btn:active { background: #4B5E48; }
 
-        @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+        @keyframes fadeIn { from{opacity:0; transform: translateY(10px);} to{opacity:1; transform: translateY(0);} }
         
     </style>
 </head>
@@ -332,18 +414,18 @@
 
     <div class="header">
         <div class="title-container">
-            <div class="title-bar">🇯🇵 關西之旅</div>
+            <div class="title-bar">関西の旅</div>
             <div class="weather-badge" id="weather-widget">
                 <span class="weather-icon" id="weather-icon">⏳</span>
                 <span class="weather-temp" id="weather-temp">Loading...</span>
             </div>
         </div>
         <div class="tabs">
-            <button class="tab active" onclick="jumpToTab(0)">D1 大阪</button>
-            <button class="tab" onclick="jumpToTab(1)">D2 梅田</button>
-            <button class="tab" onclick="jumpToTab(2)">D3 京都</button>
-            <button class="tab" onclick="jumpToTab(3)">D4 神戶</button>
-            <button class="tab" onclick="jumpToTab(4)">D5 回程</button>
+            <button class="tab active" onclick="jumpToTab(0)">大阪</button>
+            <button class="tab" onclick="jumpToTab(1)">梅田</button>
+            <button class="tab" onclick="jumpToTab(2)">京都</button>
+            <button class="tab" onclick="jumpToTab(3)">神戶</button>
+            <button class="tab" onclick="jumpToTab(4)">帰路</button>
         </div>
     </div>
 
@@ -615,40 +697,40 @@
         </div>
 
     </div> <div class="fab-container">
-        <button class="fab-btn" onclick="toggleModal()">🧰</button>
+        <button class="fab-btn" onclick="toggleModal()">✦</button>
     </div>
 
     <div class="modal-overlay" id="toolsModal" onclick="closeModalOnBg(event)">
         <div class="modal-card">
             <div class="modal-header">
-                <div class="modal-title">旅遊小工具</div>
+                <div class="modal-title">旅の道具</div>
                 <button class="close-btn" onclick="toggleModal()">×</button>
             </div>
 
             <div class="tool-section">
-                <div class="tool-title" id="rate-title">💴 匯率試算 (固定: 0.2)</div>
+                <div class="tool-title" id="rate-title">💴 匯率 (固定 0.2)</div>
                 <div class="calc-box">
-                    <input type="number" id="yenInput" class="calc-input" placeholder="日幣" oninput="calcRate()">
+                    <input type="number" id="yenInput" class="calc-input" placeholder="JPY" oninput="calcRate()">
                     <span class="calc-label">円 ≈ </span>
                     <span class="calc-result" id="twdResult">0</span>
-                    <span class="calc-label">台幣</span>
+                    <span class="calc-label">TWD</span>
                 </div>
             </div>
 
             <div class="tool-section">
-                <div class="tool-title">🗣️ 生存日語 (點擊播放)</div>
+                <div class="tool-title">🗣️ 生存日語</div>
                 <div class="phrase-list">
                     <div class="phrase-btn" onclick="speak('Sumimasen')"><span class="p-jp">すみません</span><span class="p-zh">不好意思</span></div>
-                    <div class="phrase-btn" onclick="speak('Arigatou gozaimasu')"><span class="p-jp">ありがとうございます</span><span class="p-zh">謝謝</span></div>
+                    <div class="phrase-btn" onclick="speak('Arigatou gozaimasu')"><span class="p-jp">ありがとう</span><span class="p-zh">謝謝</span></div>
                     <div class="phrase-btn" onclick="speak('Kore o kudasai')"><span class="p-jp">これをください</span><span class="p-zh">我要這個</span></div>
-                    <div class="phrase-btn" onclick="speak('Okaikei onegaishimasu')"><span class="p-jp">お会計お願いします</span><span class="p-zh">請結帳</span></div>
+                    <div class="phrase-btn" onclick="speak('Okaikei onegaishimasu')"><span class="p-jp">お会計</span><span class="p-zh">請結帳</span></div>
                 </div>
             </div>
 
             <div class="tool-section">
-                <div class="tool-title">🗺️ 實用連結</div>
+                <div class="tool-title">🗺️ 大阪地鐵</div>
                 <a href="https://subway.osakametro.co.jp/cn/guide/routemap.php" target="_blank" class="map-link-btn">
-                    📄 開啟大阪地鐵路線圖
+                    路線図を見る
                 </a>
             </div>
         </div>
@@ -657,7 +739,7 @@
     <script>
         const bgs = { d1: "Day1.jpg", d2: "Day2.jpg", d3: "Day3.jpg", d4: "Day4.jpg", d5: "Day5.jpg" };
         const coords = { osaka: { lat: 34.6937, lon: 135.5023, name: "大阪" }, kyoto: { lat: 35.0116, lon: 135.7681, name: "京都" }, kobe: { lat: 34.6901, lon: 135.1955, name: "神戶" } };
-        const weatherCodes = { 0: { icon: '☀️', text: '晴朗' }, 1: { icon: '🌤️', text: '多雲' }, 2: { icon: '☁️', text: '陰天' }, 3: { icon: '☁️', text: '陰天' }, 51: { icon: '🌧️', text: '小雨' }, 61: { icon: '🌧️', text: '下雨' }, 80: { icon: '🌦️', text: '陣雨' }, 95: { icon: '⛈️', text: '雷雨' } };
+        const weatherCodes = { 0: { icon: '☀️', text: '晴' }, 1: { icon: '🌤️', text: '多雲' }, 2: { icon: '☁️', text: '陰' }, 3: { icon: '☁️', text: '陰' }, 51: { icon: '🌧️', text: '小雨' }, 61: { icon: '🌧️', text: '雨' }, 80: { icon: '🌦️', text: '陣雨' }, 95: { icon: '⛈️', text: '雷雨' } };
 
         // 匯率固定
         let currentRate = 0.2;
@@ -739,7 +821,7 @@
             if (card.classList.contains('expanded')) {
                 if (!wrap.classList.contains('loaded')) {
                     const enc = encodeURIComponent(loc);
-                    // 使用標準 Google Maps 嵌入網址，避免 googleusercontent 問題
+                    // 使用標準 Google Maps 嵌入網址
                     wrap.innerHTML = `<iframe class="map-frame" src="https://maps.google.com/maps?q=${enc}&t=m&z=15&output=embed&iwloc=near" frameborder="0"></iframe>`;
                     setTimeout(() => wrap.classList.add('loaded'), 300);
                 }
@@ -776,7 +858,7 @@
             speechSynthesis.onvoiceschanged = () => {};
         }
 
-        /* === 滑動偵測邏輯 === */
+        /* === 滑動偵測邏輯 (防手震優化) === */
         let touchStartX = 0;
         let touchStartY = 0;
         let touchEndX = 0;
