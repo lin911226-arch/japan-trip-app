@@ -12,7 +12,7 @@
     
     <style>
         /* CSS Reset & 變數 */
-        * { box-sizing: border-box; -webkit-user-select: none; user-select: none; } /* 禁止選取文字以優化滑動體驗 */
+        * { box-sizing: border-box; -webkit-user-select: none; user-select: none; }
         
         :root {
             --primary: #FF5E57;
@@ -39,7 +39,7 @@
             padding-bottom: 100px;
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
-            overflow-x: hidden; /* 防止橫向捲軸 */
+            overflow-x: hidden;
         }
 
         /* 背景圖片層 */
@@ -128,20 +128,18 @@
         /* 內容區與動畫 */
         .content-container {
             position: relative;
-            min-height: 80vh; /* 確保有足夠區域可以滑動 */
+            min-height: 80vh;
         }
 
         .content {
             padding: 20px;
             display: none;
-            /* 滑動動畫基礎設定 */
             animation-duration: 0.4s;
             animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
             animation-fill-mode: both;
         }
         .content.active { display: block; }
 
-        /* 滑動動畫定義 */
         @keyframes slideInRight { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes slideInLeft { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         
@@ -195,7 +193,7 @@
         .toggle-icon { color: #C7C7CC; font-size: 12px; transition: transform 0.4s; }
         .card.expanded .toggle-icon { transform: rotate(180deg); color: var(--text-main); }
 
-        /* 地圖區 */
+        /* 地圖區 (修復高度與載入) */
         .map-wrapper {
             height: 0; overflow: hidden;
             transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -232,7 +230,7 @@
         body[data-theme="kobe"] .time { color: var(--accent-kobe); }
 
         .activity { font-size: 15px; line-height: 1.6; color: var(--text-main); }
-        .activity strong { font-weight: 600; color: #000; } /* 強調重點文字 */
+        .activity strong { font-weight: 600; color: #000; }
 
         .btn-group { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; }
         .live-btn {
@@ -741,7 +739,8 @@
             if (card.classList.contains('expanded')) {
                 if (!wrap.classList.contains('loaded')) {
                     const enc = encodeURIComponent(loc);
-                    wrap.innerHTML = `<iframe class="map-frame" src="http://googleusercontent.com/maps.google.com/maps?q=${enc}&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0"></iframe>`;
+                    // 使用標準 Google Maps 嵌入網址，避免 googleusercontent 問題
+                    wrap.innerHTML = `<iframe class="map-frame" src="https://maps.google.com/maps?q=${enc}&t=m&z=15&output=embed&iwloc=near" frameborder="0"></iframe>`;
                     setTimeout(() => wrap.classList.add('loaded'), 300);
                 }
                 wrap.style.height = "250px";
@@ -779,31 +778,39 @@
 
         /* === 滑動偵測邏輯 === */
         let touchStartX = 0;
+        let touchStartY = 0;
         let touchEndX = 0;
+        let touchEndY = 0;
         const swipeArea = document.getElementById('swipeArea');
 
         swipeArea.addEventListener('touchstart', e => {
             touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
         }, {passive: true});
 
         swipeArea.addEventListener('touchend', e => {
             touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
             handleSwipe();
         }, {passive: true});
 
         function handleSwipe() {
             const threshold = 50; // 滑動靈敏度
-            const swipeDistance = touchEndX - touchStartX;
+            const xDiff = touchEndX - touchStartX;
+            const yDiff = touchEndY - touchStartY;
             
-            if (swipeDistance < -threshold) {
-                // 向左滑 (下一頁)
-                if (currentIndex < totalDays - 1) {
-                    jumpToTab(currentIndex + 1, 'left');
-                }
-            } else if (swipeDistance > threshold) {
-                // 向右滑 (上一頁)
-                if (currentIndex > 0) {
-                    jumpToTab(currentIndex - 1, 'right');
+            // 垂直鎖定：只有當水平移動距離大於垂直移動距離時，才判定為換頁
+            if (Math.abs(xDiff) > Math.abs(yDiff)) {
+                if (xDiff < -threshold) {
+                    // 向左滑 (下一頁)
+                    if (currentIndex < totalDays - 1) {
+                        jumpToTab(currentIndex + 1, 'left');
+                    }
+                } else if (xDiff > threshold) {
+                    // 向右滑 (上一頁)
+                    if (currentIndex > 0) {
+                        jumpToTab(currentIndex - 1, 'right');
+                    }
                 }
             }
         }
