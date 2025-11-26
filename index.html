@@ -12,7 +12,7 @@
     
     <style>
         /* CSS Reset & 變數 */
-        * { box-sizing: border-box; } /* 關鍵修復：防止寬度溢出 */
+        * { box-sizing: border-box; }
         
         :root {
             --primary: #FF5E57;
@@ -262,7 +262,7 @@
         .modal-overlay.open { display: flex; animation: fadeIn 0.2s; }
         
         .modal-card {
-            width: 90%; max-width: 320px; /* 限制寬度 */
+            width: 90%; max-width: 320px;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 24px;
@@ -284,7 +284,7 @@
             background: #f0f2f5; padding: 12px; border-radius: 12px; 
         }
         .calc-input { 
-            flex: 1; min-width: 0; /* 防止溢出 */
+            flex: 1; min-width: 0;
             border: none; background: transparent; 
             font-size: 18px; font-weight: bold; color: #333; text-align: right; outline: none; 
         }
@@ -302,13 +302,13 @@
         .p-jp { display: block; font-size: 14px; font-weight: 700; color: #333; margin-bottom: 2px; }
         .p-zh { display: block; font-size: 11px; color: #888; }
 
-        /* 地鐵圖按鈕 - 修復溢出 */
+        /* 地鐵圖按鈕 */
         .map-link-btn {
             display: block; width: 100%; padding: 12px;
             background: #28C76F; color: white;
             text-align: center; text-decoration: none;
             border-radius: 12px; font-weight: 700; font-size: 14px;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; /* 防止文字過長 */
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
         @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
@@ -459,7 +459,7 @@
             </div>
 
             <div class="tool-section">
-                <div class="tool-title" id="rate-title">💴 匯率試算 (載入中...)</div>
+                <div class="tool-title" id="rate-title">💴 匯率試算 (固定: 0.2)</div>
                 <div class="calc-box">
                     <input type="number" id="yenInput" class="calc-input" placeholder="日幣" oninput="calcRate()">
                     <span class="calc-label">円 ≈ </span>
@@ -469,7 +469,7 @@
             </div>
 
             <div class="tool-section">
-                <div class="tool-title">🗣️ 生存日語 (點擊)</div>
+                <div class="tool-title">🗣️ 生存日語 (點擊播放)</div>
                 <div class="phrase-list">
                     <div class="phrase-btn" onclick="speak('Sumimasen')"><span class="p-jp">すみません</span><span class="p-zh">不好意思</span></div>
                     <div class="phrase-btn" onclick="speak('Arigatou gozaimasu')"><span class="p-jp">ありがとうございます</span><span class="p-zh">謝謝</span></div>
@@ -492,8 +492,8 @@
         const coords = { osaka: { lat: 34.6937, lon: 135.5023, name: "大阪" }, kyoto: { lat: 35.0116, lon: 135.7681, name: "京都" }, kobe: { lat: 34.6901, lon: 135.1955, name: "神戶" } };
         const weatherCodes = { 0: { icon: '☀️', text: '晴朗' }, 1: { icon: '🌤️', text: '多雲' }, 2: { icon: '☁️', text: '陰天' }, 3: { icon: '☁️', text: '陰天' }, 51: { icon: '🌧️', text: '小雨' }, 61: { icon: '🌧️', text: '下雨' }, 80: { icon: '🌦️', text: '陣雨' }, 95: { icon: '⛈️', text: '雷雨' } };
 
-        // 預設匯率
-        let currentRate = 0.22;
+        // 匯率固定
+        let currentRate = 0.2;
 
         async function fetchWeather(cityKey) {
             const tempEl = document.getElementById('weather-temp');
@@ -507,22 +507,6 @@
                 iconEl.innerText = info.icon;
                 tempEl.innerText = `${coords[cityKey].name} ${Math.round(data.current_weather.temperature)}°C`;
             } catch (e) { tempEl.innerText = "天氣載入失敗"; }
-        }
-
-        async function fetchExchangeRate() {
-            const title = document.getElementById('rate-title');
-            try {
-                // 使用 Frankfurter 免費 API 獲取 JPY -> TWD
-                const res = await fetch('https://api.frankfurter.app/latest?from=JPY&to=TWD');
-                const data = await res.json();
-                if(data && data.rates && data.rates.TWD) {
-                    currentRate = data.rates.TWD;
-                    title.innerText = `💴 匯率試算 (目前: ${currentRate.toFixed(3)})`;
-                }
-            } catch (e) {
-                console.error("Rate fetch failed, using default");
-                title.innerText = `💴 匯率試算 (預設: ${currentRate})`;
-            }
         }
 
         function switchTab(dayId, theme) {
@@ -568,16 +552,34 @@
             const twd = Math.round(yen * currentRate);
             document.getElementById('twdResult').innerText = twd;
         }
+        
+        // 語音優化：強制嘗試獲取日語語音，並調整語速
         function speak(text) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'ja-JP';
-            speechSynthesis.speak(utterance);
+            // 先停止當前語音
+            speechSynthesis.cancel();
+            
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ja-JP';
+            u.rate = 0.9; // 稍微放慢一點，比較清楚
+
+            // 嘗試抓取系統中的日語語音包 (解決部分 iOS 預設用英文讀日文的問題)
+            const voices = speechSynthesis.getVoices();
+            const jpVoice = voices.find(v => v.lang === 'ja-JP' || v.lang === 'ja_JP');
+            if (jpVoice) {
+                u.voice = jpVoice;
+            }
+
+            speechSynthesis.speak(u);
+        }
+        
+        // 確保語音列表載入 (Chrome/Safari有時需要觸發)
+        if (typeof speechSynthesis !== 'undefined') {
+            speechSynthesis.onvoiceschanged = () => {};
         }
 
         // 初始化
         document.addEventListener('DOMContentLoaded', () => { 
             fetchWeather('osaka');
-            fetchExchangeRate(); // 抓取即時匯率
         });
     </script>
 </body>
